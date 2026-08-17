@@ -1,0 +1,40 @@
+import type { NewsArticle } from '@/types/news';
+
+export const fallbackArticles: NewsArticle[] = [
+  {
+    id: '1',
+    slug: 'annual-general-assembly-2024',
+    title: 'Annual General Assembly Successfully Concluded',
+    excerpt: 'Our annual general assembly was held with the participation of member cooperatives.',
+    content: 'Full report on the annual general assembly, member participation, and key resolutions passed.',
+    category: 'event',
+    imageUrl: '/images/news/annual-general-assembly.jpg',
+    publishedAt: new Date('2024-05-20'),
+    createdAt: new Date('2024-05-20'),
+    updatedAt: new Date('2024-05-20'),
+  },
+  {
+    id: '2',
+    slug: 'new-branch-opening-bahir-dar',
+    title: 'New Branch Opening in Bahir Dar',
+    excerpt: 'We are pleased to announce the opening of our new branch to serve more members.',
+    content: 'Details on the new Bahir Dar branch location, services offered, and opening hours.',
+    category: 'branch-update',
+    imageUrl: '/images/news/fnoteselam.jpg',
+    publishedAt: new Date('2024-05-15'),
+    createdAt: new Date('2024-05-15'),
+    updatedAt: new Date('2024-05-15'),
+  },
+  {
+    id: '3',
+    slug: 'financial-literacy-training-members',
+    title: 'Financial Literacy Training for Members',
+    excerpt: 'Training program to improve the financial awareness of our members was successfully conducted.',
+    content: 'Recap of the financial literacy training program, topics covered, and member feedback.',
+    category: 'training',
+    imageUrl: '/images/news/financial-literacy-training.jpg',
+    publishedAt: new Date('2024-05-10'),
+    createdAt: new Date('2024-05-10'),
+    updatedAt: new Date('2024-05-10'),
+  },
+];
