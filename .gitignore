@@ -1,0 +1,82 @@
+# ==========================================
+# Dependencies & Package Managers
+# ==========================================
+
+node_modules/
+.pnpm-store/
+.yarn/
+package-lock.json.log
+yarn-error.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# ==========================================
+# Next.js & Build Outputs
+# ==========================================
+.next/
+out/
+build/
+dist/
+.vercel
+.netlify
+
+# ==========================================
+# Environment Variables & Secrets (IMPORTANT)
+# ==========================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+! .env.example
+
+# ==========================================
+# TypeScript & Cache
+# ==========================================
+*.tsbuildinfo
+next-env.d.ts.bak
+.cache/
+
+# ==========================================
+# Prisma & Databases
+# ==========================================
+prisma/migrations/dev.db
+prisma/migrations/dev.db-journal
+*.db
+*.sqlite
+*.sqlite-journal
+
+# ==========================================
+# IDE & Editor Files
+# ==========================================
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
+
+# ==========================================
+# Testing & Coverage
+# ==========================================
+coverage/
+.nyc_output/
+cypress/videos/
+cypress/screenshots/
+
+# ==========================================
+# Temporary Files & Logs
+# ==========================================
+*.log
+logs/
+*.tmp
+*.temp
