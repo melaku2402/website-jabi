@@ -1,4 +1,5 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
+import { getTranslations } from 'next-intl/server';
 import { PiggyBank, HandCoins, Wallet, Send, GraduationCap, MoreHorizontal, ArrowRight } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
 import { homeServices } from '@/data/services';
@@ -23,13 +24,14 @@ const iconStyles: Record<keyof typeof icons, { bg: string; text: string }> = {
   other: { bg: 'bg-blue-50', text: 'text-blue-600' },
 };
 
-export function ServicesGrid() {
+export async function ServicesGrid() {
+  const t = await getTranslations('HomePage.services');
   return (
     <section className="mx-auto max-w-7xl px-6 py-10">
       <div className="text-center">
-        <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">Our Services</span>
+        <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">{t('eyebrow')}</span>
         <h2 className="mt-2 text-3xl font-extrabold text-[#022777] sm:text-4xl">
-          Financial Solutions Designed For You
+          {t('heading')}
         </h2>
         <span className="mx-auto mt-3 block h-1 w-16 rounded-full bg-emerald-500" />
       </div>
@@ -49,16 +51,16 @@ export function ServicesGrid() {
                 <Icon className="h-8 w-8" strokeWidth={1.75} />
               </span>
               <h3 className="text-base font-bold text-[#022777] transition-colors group-hover:text-emerald-600">
-                {service.title}
+                {t(`items.${service.icon}.title`)}
               </h3>
-              <p className="text-xs leading-relaxed text-gray-500">{service.description}</p>
+              <p className="text-xs leading-relaxed text-gray-500">{t(`items.${service.icon}.description`)}</p>
 
               {/* Plain text link with arrow — no pill border, matching the design */}
               <Link
                 href={service.href}
                 className="mt-1 flex items-center gap-1.5 text-sm font-semibold text-[#022777] after:absolute after:inset-0 hover:text-emerald-600"
               >
-                Learn More
+                {t('learnMore')}
                 <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </Card>
