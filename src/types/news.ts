@@ -18,3 +18,14 @@ export interface NewsArticle {
   createdAt: Date;
   updatedAt: Date;
 }
+
+// Shape used by the admin news management panel (src/app/admin/news).
+export interface NewsItem {
+  id: string;
+  title: string;
+  category: string;
+  image: string;
+  status: 'published' | 'draft' | 'archived';
+  author: string;
+  publishedAt: string;
+}
