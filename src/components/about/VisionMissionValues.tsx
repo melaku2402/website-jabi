@@ -1,4 +1,5 @@
 import { Eye, Target, Gem } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import { Card } from '@/components/ui/Card';
 import { visionMissionValues } from '@/data/about-content';
 
@@ -11,7 +12,8 @@ const iconStyles: Record<keyof typeof icons, { bg: string; text: string }> = {
   values: { bg: 'bg-emerald-600', text: 'text-white' },
 };
 
-export function VisionMissionValues() {
+export async function VisionMissionValues() {
+  const t = await getTranslations('HomePage.about.visionMissionValues');
   return (
     <section className="bg-slate-50 py-2">
       <div className="mx-auto max-w-7xl px-6">
@@ -19,6 +21,9 @@ export function VisionMissionValues() {
           {visionMissionValues.map((item) => {
             const Icon = icons[item.icon as keyof typeof icons];
             const style = iconStyles[item.icon as keyof typeof iconStyles];
+            const translatedDescription = item.list
+              ? t.raw(`${item.icon}.list`).join(', ')
+              : t(`${item.icon}.description`);
 
             return (
               <Card
@@ -35,12 +40,12 @@ export function VisionMissionValues() {
                 {/* Text Block */}
                 <div>
                   <h3 className="text-base font-bold text-[#03387C] transition-colors duration-300 group-hover:text-emerald-600">
-                    {item.title}
+                    {t(`${item.icon}.title`)}
                   </h3>
 
                   {/* Inline Description or Comma-separated Values List */}
                   <p className="mt-1 text-sm leading-relaxed text-gray-600">
-                    {item.description ?? item.list?.join(', ')}
+                    {translatedDescription}
                   </p>
                 </div>
               </Card>

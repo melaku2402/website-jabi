@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
+import { getTranslations } from 'next-intl/server';
 import { Home, ChevronRight } from 'lucide-react';
 import { SafeImage } from '@/components/ui/SafeImage';
 
@@ -13,7 +14,7 @@ interface PageHeroProps {
   children?: ReactNode;
 }
 
-export function PageHero({
+export async function PageHero({
   title,
   breadcrumbLabel,
   description,
@@ -22,6 +23,7 @@ export function PageHero({
   imagePosition = 'object-center',
   children,
 }: PageHeroProps) {
+  const t = await getTranslations('common');
   return (
     <section className="relative h-[160px] w-full overflow-hidden sm:h-[180px] md:h-[200px]">
       {/* Background Image */}
@@ -50,7 +52,7 @@ export function PageHero({
             className="flex items-center gap-1 transition-colors hover:text-emerald-400"
           >
             <Home className="h-3.5 w-3.5" />
-            <span>Home</span>
+            <span>{t('nav.home')}</span>
           </Link>
           <ChevronRight className="h-3 w-3 opacity-60" />
           <span className="font-medium text-white">{breadcrumbLabel}</span>

@@ -1,11 +1,13 @@
-import Link from 'next/link';
+import NextLink from 'next/link';
 import { Landmark, ArrowRight } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import { headOfficeMapEmbedUrl, headOfficeDirectionsUrl } from '@/data/contact-content';
 
-export function LocationMap() {
+export async function LocationMap() {
+  const t = await getTranslations('ContactPage.map');
   return (
     <div>
-      <h2 className="text-2xl font-extrabold text-[#01277A]">Our Location</h2>
+      <h2 className="text-2xl font-extrabold text-[#01277A]">{t('heading')}</h2>
 
       <div className="mt-6 overflow-hidden rounded-xl border border-gray-100 shadow-sm">
         <div className="h-72 w-full">
@@ -24,21 +26,21 @@ export function LocationMap() {
               <Landmark className="h-5 w-5" />
             </span>
             <div>
-              <p className="text-sm font-bold text-white">Head Office</p>
-              <p className="mt-0.5 text-xs text-blue-100">Finote Selam, West Gojjam,</p>
-              <p className="text-xs text-blue-100">Amhara Region, Ethiopia</p>
-              <p className="mt-0.5 text-xs text-blue-200">P.O.Box 1018</p>
+              <p className="text-sm font-bold text-white">{t('headOffice')}</p>
+              <p className="mt-0.5 text-xs text-blue-100">{t('addressLine1')}</p>
+              <p className="text-xs text-blue-100">{t('addressLine2')}</p>
+              <p className="mt-0.5 text-xs text-blue-200">{t('poBox')}</p>
             </div>
           </div>
 
-          <Link
+          <NextLink
             href={headOfficeDirectionsUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="flex shrink-0 items-center justify-center gap-2 rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-[#01277A] hover:bg-blue-50 transition-colors"
           >
-            Get Directions <ArrowRight className="h-4 w-4" />
-          </Link>
+            {t('getDirections')} <ArrowRight className="h-4 w-4" />
+          </NextLink>
         </div>
       </div>
     </div>

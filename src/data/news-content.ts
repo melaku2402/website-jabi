@@ -175,12 +175,15 @@ export const upcomingEvents: UpcomingEvent[] = [
 ];
 
 export const photoGallery: string[] = [
-  'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=800',
-  'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=800',
-  'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800',
-  'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=800',
-  'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=800',
-  'https://images.unsplash.com/photo-1531545514256-b1400bc00f31?auto=format&fit=crop&q=80&w=800',
+  "/images/news/gallery-1.png",
+  "/images/news/gallery-2.png",
+  "/images/news/gallery-3.png",
+  "/images/news/dega-damot.jpg",
+  "/images/news/bure.jpg",
+  "/images/news/team-members.png",
+  "/images/news/gallery-4.png",
+  "/images/news/gallery-5.png",
+  "/images/news/gallery-6.png",
 ];
 
 export interface DownloadItem {

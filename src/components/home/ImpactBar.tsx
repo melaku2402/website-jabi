@@ -2,6 +2,7 @@
 
 import { useState, useRef, MouseEvent } from 'react';
 import { Landmark, Coins, HandCoins, TrendingUp, Award } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { homeImpact } from '@/data/impact';
 import { CountUp } from './CountUp';
 
@@ -14,6 +15,7 @@ const icons = {
 } as const;
 
 export function ImpactBar() {
+  const t = useTranslations('HomePage.impact');
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 });
@@ -70,7 +72,7 @@ export function ImpactBar() {
           )}
 
           <p className="relative z-10 text-center text-xs font-bold uppercase tracking-widest text-emerald-400">
-            Our Impact In Numbers
+            {t('eyebrow')}
           </p>
 
           <div className="relative z-10 mt-6 grid grid-cols-2 gap-y-6 sm:grid-cols-3 lg:grid-cols-5 lg:gap-y-0">
@@ -96,7 +98,7 @@ export function ImpactBar() {
                     <CountUp value={item.value} />
                   </p>
                   <p className="text-xs font-medium text-blue-300 transition-colors duration-300 group-hover:text-blue-100">
-                    {item.label}
+                    {t(`items.${item.id}`)}
                   </p>
                 </div>
               );

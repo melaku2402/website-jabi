@@ -1,8 +1,10 @@
 import { Users, Landmark, Building2, Briefcase, Coins, HandCoins } from 'lucide-react';
+import { getLocale, getTranslations } from 'next-intl/server';
 import { primaryStats } from '@/data/stats';
+import { getOrgStats } from '@/lib/repositories/stats';
 import { CountUp } from './CountUp';
 
-const icons = {
+const icons: Record<string, typeof Users> = {
   members: Users,
   cooperatives: Landmark,
   branches: Building2,
@@ -11,12 +13,23 @@ const icons = {
   loans: HandCoins,
 };
 
-export function StatStrip() {
+export async function StatStrip() {
+  const locale = await getLocale();
+  const t = await getTranslations('HomePage.stats');
+  const dbStats = await getOrgStats(locale);
+
+  // Falls back to the static translated stats until real figures are
+  // entered from the admin panel (Organization Stats page).
+  const stats =
+    dbStats.length > 0
+      ? dbStats.map((s) => ({ id: s.id, icon: s.key, value: s.value, suffix: s.suffix, label: s.label }))
+      : primaryStats.map((s) => ({ id: s.id, icon: s.icon, value: s.value, suffix: s.suffix, label: t(s.icon) }));
+
   return (
     <div className="relative z-20 mx-auto -mt-14 max-w-7xl px-6">
       <div className="grid grid-cols-2 gap-6 rounded-2xl border border-gray-100 bg-white p-8 shadow-lg sm:grid-cols-3 lg:grid-cols-6">
-        {primaryStats.map((stat) => {
-          const Icon = icons[stat.icon];
+        {stats.map((stat) => {
+          const Icon = icons[stat.icon] ?? Coins;
           return (
             <div key={stat.id} className="flex flex-col items-center text-center">
               <Icon className="h-6 w-6 text-emerald-600" />

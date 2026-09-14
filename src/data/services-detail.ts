@@ -82,7 +82,7 @@ export const featuredService: FeaturedServiceContent = {
     'We provide flexible loan solutions to help you achieve your personal and business goals.',
   features: ['Agricultural Loan', 'Business Loan', 'Emergency Loan', 'Education Loan'],
   ctaLabel: 'Apply Now',
-  ctaHref: '/services/loans/apply',
+  ctaHref: '/services/loans',
   imageUrl: '/images/services/featured-loans.jpg',
 };
 

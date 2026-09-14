@@ -1,12 +1,14 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { Phone, ArrowRight } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import { branchesList } from '@/data/contact-content';
 
-export function BranchesList() {
+export async function BranchesList() {
+  const t = await getTranslations('ContactPage.branches');
   return (
     <div>
-      <h2 className="text-2xl font-extrabold text-[#01277A]">Our Branches</h2>
+      <h2 className="text-2xl font-extrabold text-[#01277A]">{t('heading')}</h2>
 
       <div className="mt-6 divide-y divide-gray-100 rounded-xl border border-gray-100 bg-white shadow-sm overflow-hidden">
         {branchesList.map((branch) => (
@@ -45,7 +47,7 @@ export function BranchesList() {
         href="/branches"
         className="group mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-gray-100 bg-white py-2.5 text-sm font-semibold text-[#01277A] hover:border-gray-200 hover:bg-blue-50/40 hover:-translate-y-0.5 transition-all duration-300 shadow-sm"
       >
-        View All Branches
+        {t('viewAll')}
         <ArrowRight className="h-4 w-4 text-[#01277A] transition-transform duration-300 group-hover:translate-x-1" />
       </Link>
     </div>

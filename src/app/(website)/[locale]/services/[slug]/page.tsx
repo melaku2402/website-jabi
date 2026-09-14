@@ -1,5 +1,7 @@
-import Link from "next/link";
+
+import { Link } from "@/i18n/navigation";
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import {
   PiggyBank,
   HandCoins,
@@ -12,9 +14,13 @@ import {
   CheckCircle2,
   ShieldCheck,
   HelpCircle,
+  Briefcase,
+  Sprout,
+  AlertCircle,
+  BookOpen,
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
-import { homeServices } from "@/data/services";
+import { homeServices, loanTypes } from "@/data/services";
 
 const icons = {
   savings: PiggyBank,
@@ -34,6 +40,14 @@ const iconStyles: Record<keyof typeof icons, { bg: string; text: string }> = {
   other: { bg: "bg-blue-50", text: "text-blue-600" },
 };
 
+// Map specific sub-loan IDs to contextual icons
+const loanIcons: Record<string, React.ElementType> = {
+  "agricultural-loan": Sprout,
+  "business-loan": Briefcase,
+  "emergency-loan": AlertCircle,
+  "education-loan": BookOpen,
+};
+
 interface ServiceDetailPageProps {
   params: Promise<{
     locale: string;
@@ -41,17 +55,41 @@ interface ServiceDetailPageProps {
   }>;
 }
 
-export default async function ServiceDetailPage({ params }: ServiceDetailPageProps) {
-  // params-ን await በማድረግ slug-ን መውሰድ
-  const { slug } = await params;
+export async function generateMetadata({ params }: ServiceDetailPageProps) {
+  const { locale, slug } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+  const tServices = await getTranslations({ locale, namespace: "HomePage.services" });
 
   const service = homeServices.find(
-    (item) => item.href.endsWith(slug) || item.id === slug
+    (item) => item.href.endsWith(slug) || item.id === slug,
+  );
+
+  if (!service) {
+    return { title: `${t("services.title")} | ${t("suffix")}` };
+  }
+
+  return {
+    title: `${tServices(`items.${service.icon}.title`)} | ${t("suffix")}`,
+    description: tServices(`items.${service.icon}.description`),
+  };
+}
+
+export default async function ServiceDetailPage({ params }: ServiceDetailPageProps) {
+  const { slug } = await params;
+  const t = await getTranslations("ServiceDetailPage");
+  const tServices = await getTranslations("HomePage.services");
+  const tLoans = await getTranslations("LoanTypes");
+
+  // Find service by matching slug from service.href or service.id
+  const service = homeServices.find(
+    (item) => item.href.endsWith(slug) || item.id === slug,
   );
 
   if (!service) {
     notFound();
   }
+
+  const isLoanService = service.id === "loans";
   const Icon = icons[service.icon] || MoreHorizontal;
   const style = iconStyles[service.icon] || {
     bg: "bg-blue-50",
@@ -62,6 +100,8 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
     .filter((item) => item.id !== service.id)
     .slice(0, 3);
 
+  const defaultFeatures = t.raw("defaultFeatures") as string[];
+
   return (
     <main className="min-h-screen bg-gray-50/50 py-10 lg:py-16">
       <div className="mx-auto max-w-6xl px-6">
@@ -71,7 +111,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
           className="inline-flex items-center gap-2 text-xs font-bold text-[#022777] transition-colors hover:text-emerald-600"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to All Services
+          {t("backToAll")}
         </Link>
 
         {/* Hero Section */}
@@ -85,10 +125,10 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
               </span>
               <div>
                 <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">
-                  Financial Solution
+                  {t("financialSolution")}
                 </span>
                 <h1 className="mt-1 text-3xl font-extrabold text-[#022777] sm:text-4xl">
-                  {service.title}
+                  {tServices(`items.${service.icon}.title`)}
                 </h1>
               </div>
             </div>
@@ -97,13 +137,13 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
               href="/contact"
               className="inline-flex items-center gap-2 rounded-full bg-[#022777] px-6 py-3 text-xs font-extrabold text-white transition-all hover:bg-emerald-600 hover:shadow-lg active:scale-[0.98]"
             >
-              Apply / Inquire Now
+              {t("applyInquire")}
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
           <p className="mt-6 text-base font-medium leading-relaxed text-gray-600 sm:text-lg">
-            {service.description}
+            {tServices(`items.${service.icon}.description`)}
           </p>
 
           <hr className="my-8 border-gray-100" />
@@ -112,33 +152,91 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
             {/* Main Content Column */}
             <div className="lg:col-span-2">
-              <h2 className="text-xl font-bold text-[#022777]">
-                Key Features & Benefits
-              </h2>
-              <ul className="mt-4 space-y-3">
-                {[
-                  "Competitive interest rates tailored for member growth",
-                  "Flexible payment plans and transparent terms",
-                  "Dedicated support from financial advisors",
-                  "Seamless online and branch access",
-                ].map((feature, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
-                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
-                    <span className="text-sm font-medium text-gray-700">
-                      {feature}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              {/* Render Sub-Loans Grid if Loans page, otherwise general features */}
+              {isLoanService ? (
+                <div>
+                  <h2 className="text-2xl font-bold text-[#022777]">
+                    {t("availableLoanOptions.heading")}
+                  </h2>
+                  <p className="mt-1 text-sm text-gray-500">
+                    {t("availableLoanOptions.subtitle")}
+                  </p>
 
-              <h2 className="mt-8 text-xl font-bold text-[#022777]">
-                How It Works
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-gray-600">
-                Our process is designed to be simple, efficient, and
-                user-friendly. Members can get started by visiting any of our
-                local branches or contacting our support team directly.
-              </p>
+                  <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    {loanTypes.map((loan) => {
+                      const LoanIcon = loanIcons[loan.id] || HandCoins;
+                      const loanTitle = tLoans(`${loan.id}.title`);
+                      const loanFeatures = tLoans.raw(`${loan.id}.features`) as string[];
+                      return (
+                        <div
+                          key={loan.id}
+                          className="flex flex-col justify-between rounded-2xl border border-gray-100 bg-gray-50/50 p-6 transition-all hover:border-emerald-200 hover:bg-white hover:shadow-md"
+                        >
+                          <div>
+                            <div className="flex items-center gap-3">
+                              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-100 text-orange-600">
+                                <LoanIcon className="h-5 w-5" />
+                              </span>
+                              <h3 className="text-lg font-bold text-[#022777]">
+                                {loanTitle}
+                              </h3>
+                            </div>
+
+                            <p className="mt-3 text-xs leading-relaxed text-gray-600">
+                              {tLoans(`${loan.id}.description`)}
+                            </p>
+
+                            <ul className="mt-4 space-y-2">
+                              {loanFeatures.map((feature, idx) => (
+                                <li
+                                  key={idx}
+                                  className="flex items-start gap-2"
+                                >
+                                  <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />
+                                  <span className="text-xs text-gray-700">
+                                    {feature}
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+
+                          <Link
+                            href={loan.href}
+                            className="mt-6 inline-flex items-center gap-1 text-xs font-bold text-[#022777] transition-colors hover:text-emerald-600"
+                          >
+                            {t("applyFor")} {loanTitle}{" "}
+                            <ArrowRight className="h-3.5 w-3.5" />
+                          </Link>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <h2 className="text-xl font-bold text-[#022777]">
+                    {t("keyFeaturesBenefits")}
+                  </h2>
+                  <ul className="mt-4 space-y-3">
+                    {defaultFeatures.map((feature, idx) => (
+                      <li key={idx} className="flex items-start gap-3">
+                        <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+                        <span className="text-sm font-medium text-gray-700">
+                          {feature}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <h2 className="mt-8 text-xl font-bold text-[#022777]">
+                    {t("howItWorksHeading")}
+                  </h2>
+                  <p className="mt-3 text-sm leading-relaxed text-gray-600">
+                    {t("howItWorksParagraph")}
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Sidebar Card */}
@@ -146,28 +244,26 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
               <div className="rounded-2xl border border-emerald-100 bg-emerald-50/50 p-6">
                 <div className="flex items-center gap-3 text-emerald-700">
                   <ShieldCheck className="h-6 w-6" />
-                  <h3 className="font-bold">Member Protection</h3>
+                  <h3 className="font-bold">{t("memberProtection.title")}</h3>
                 </div>
                 <p className="mt-2 text-xs leading-relaxed text-emerald-800/80">
-                  All services are backed by standard regulatory guidelines and
-                  member security protocols.
+                  {t("memberProtection.description")}
                 </p>
               </div>
 
               <div className="rounded-2xl border border-gray-100 bg-gray-50 p-6">
                 <div className="flex items-center gap-3 text-[#022777]">
                   <HelpCircle className="h-6 w-6" />
-                  <h3 className="font-bold">Need Assistance?</h3>
+                  <h3 className="font-bold">{t("needAssistance.title")}</h3>
                 </div>
                 <p className="mt-2 text-xs leading-relaxed text-gray-600">
-                  Have questions regarding eligibility or documentation
-                  requirements?
+                  {t("needAssistance.description")}
                 </p>
                 <Link
                   href="/contact"
                   className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-[#022777] hover:text-emerald-600"
                 >
-                  Contact Support <ArrowRight className="h-3.5 w-3.5" />
+                  {t("needAssistance.contactSupport")} <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               </div>
             </div>
@@ -177,7 +273,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
         {/* Related Services Section */}
         <section className="mt-16">
           <h2 className="text-2xl font-extrabold text-[#022777]">
-            Explore Other Services
+            {t("exploreOtherServices")}
           </h2>
           <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
             {otherServices.map((item) => {
@@ -198,16 +294,16 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
                     <ItemIcon className="h-6 w-6" strokeWidth={1.75} />
                   </span>
                   <h3 className="text-base font-bold text-[#022777] group-hover:text-emerald-600">
-                    {item.title}
+                    {tServices(`items.${item.icon}.title`)}
                   </h3>
-                  <p className="text-xs text-gray-500 line-clamp-2">
-                    {item.description}
+                  <p className="line-clamp-2 text-xs text-gray-500">
+                    {tServices(`items.${item.icon}.description`)}
                   </p>
                   <Link
                     href={item.href}
                     className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-[#022777] after:absolute after:inset-0 hover:text-emerald-600"
                   >
-                    Learn More <ArrowRight className="h-3.5 w-3.5" />
+                    {tServices("learnMore")} <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </Card>
               );

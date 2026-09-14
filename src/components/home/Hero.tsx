@@ -1,11 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 import { ArrowRight, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 export function Hero() {
+  const t = useTranslations('HomePage.hero');
   return (
     <section className="relative flex min-h-[100dvh] w-full flex-col justify-between overflow-hidden bg-blue-950">
       {/* Background Image Container with Responsive Positioning */}
@@ -39,14 +41,14 @@ export function Hero() {
         <div className="max-w-xl lg:max-w-2xl">
           {/* Main Headline */}
           <h1 className="animate-fade-up text-3xl font-extrabold leading-tight text-white opacity-0 [animation-delay:100ms] sm:text-5xl lg:text-6xl lg:leading-none">
-            Your Trust,
+            {t('titleLine1')}
             <br />
-            Our <span className="text-emerald-400">Commitment!</span>
+            {t('titleLine2Prefix')} <span className="text-emerald-400">{t('titleHighlight')}</span>
           </h1>
 
           {/* Subheading */}
           <p className="animate-fade-up mt-4 max-w-md text-sm leading-relaxed text-blue-100 opacity-0 [animation-delay:300ms] sm:mt-5 sm:max-w-lg sm:text-lg">
-            Building stronger communities through reliable, innovative, and inclusive financial services.
+            {t('subtitle')}
           </p>
 
           {/* Action Buttons */}
@@ -57,7 +59,7 @@ export function Hero() {
             >
               <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full" />
               <span className="relative flex items-center gap-2">
-                Open an Account <UserPlus className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+                {t('openAccount')} <UserPlus className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
               </span>
             </Button>
 
@@ -66,7 +68,7 @@ export function Hero() {
                 variant="outline"
                 className="group inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/10 px-7 py-3 text-base font-bold text-white backdrop-blur-md transition-all duration-300 hover:border-white hover:bg-white hover:text-blue-950 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 sm:w-auto sm:text-sm"
               >
-                <span>Our Services</span>
+                <span>{t('ourServices')}</span>
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </Link>

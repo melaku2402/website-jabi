@@ -2,8 +2,8 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import {
   MapPin,
@@ -12,7 +12,6 @@ import {
   Facebook,
   Twitter,
   Linkedin,
-  ChevronDown,
   Menu,
   X,
   UserPlus,
@@ -20,6 +19,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { mainNavLinks, siteContact } from "@/data/site-config";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 /**
  * Normalizes locale paths (e.g., /en/about -> /about, /en -> /)
@@ -42,6 +42,8 @@ function isActivePath(pathname: string, href: string) {
 }
 
 export function Header() {
+  const t = useTranslations("common");
+  const tHeader = useTranslations("Header");
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -104,9 +106,7 @@ export function Header() {
           </div>
 
           <div className="flex items-center gap-4">
-            <button className="flex items-center gap-1 text-blue-100 hover:text-white">
-              English <ChevronDown className="h-3 w-3" />
-            </button>
+            <LanguageSwitcher />
             <div className="flex items-center gap-3">
               <Link
                 href="#"
@@ -176,7 +176,7 @@ export function Header() {
                   href={link.href}
                   className={navLinkClass(active)}
                 >
-                  {link.label}
+                  {t(`nav.${link.key}`)}
                   {active && (
                     <span
                       className={`absolute inset-x-0 bottom-1 h-0.5 rounded-full ${underlineClass}`}
@@ -194,7 +194,7 @@ export function Header() {
             >
               <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full" />
               <span className="relative flex items-center gap-2">
-                Become a Member <UserPlus className="h-4 w-4" />
+                {t("becomeMember")} <UserPlus className="h-4 w-4" />
               </span>
             </Button>
           </div>
@@ -205,7 +205,7 @@ export function Header() {
                 ? "border-white/40 text-white"
                 : "border-gray-200 text-blue-950"
             }`}
-            aria-label="Toggle navigation menu"
+            aria-label={tHeader("toggleMenu")}
             onClick={() => setMobileOpen(true)}
           >
             <Menu className="h-6 w-6" />
@@ -246,7 +246,7 @@ export function Header() {
               <button
                 type="button"
                 onClick={closeMobile}
-                aria-label="Close menu"
+                aria-label={tHeader("closeMenu")}
                 className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 transition hover:bg-white/10"
               >
                 <X className="h-5 w-5" />
@@ -256,7 +256,7 @@ export function Header() {
             <div className="mt-4 flex-1 overflow-y-auto">
               <div className="mb-4 rounded-2xl border border-white/10 bg-white/5 p-3">
                 <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.18em] text-white/60">
-                  Quick Access
+                  {tHeader("quickAccess")}
                 </p>
                 <Link
                   href="/"
@@ -264,7 +264,7 @@ export function Header() {
                   className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-3 text-sm font-bold transition hover:border-emerald-400/40 hover:bg-white/10"
                 >
                   <HomeIcon className="h-4 w-4 text-emerald-400" />
-                  Home
+                  {t("nav.home")}
                 </Link>
               </div>
 
@@ -282,7 +282,7 @@ export function Header() {
                           : "text-white/85 hover:bg-white/10"
                       }`}
                     >
-                      {link.label}
+                      {t(`nav.${link.key}`)}
                     </Link>
                   );
                 })}
@@ -294,7 +294,7 @@ export function Header() {
               onClick={closeMobile}
               className="mt-3 w-full justify-center gap-2"
             >
-              Become a Member <UserPlus className="h-4 w-4" />
+              {t("becomeMember")} <UserPlus className="h-4 w-4" />
             </Button>
           </nav>
         </div>

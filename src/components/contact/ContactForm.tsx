@@ -2,19 +2,21 @@
 
 import { useActionState } from 'react';
 import { Send } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { submitContactAction } from '@/actions/contact';
 
 const inputClasses =
   'w-full rounded-lg border border-gray-100 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder:text-gray-400 shadow-sm transition-all duration-300 hover:border-emerald-600/40 hover:-translate-y-0.5 hover:shadow-md focus:border-[#01277A] focus:outline-none focus:ring-1 focus:ring-[#01277A] focus:-translate-y-0.5 focus:shadow-md';
 
 export function ContactForm() {
+  const t = useTranslations('ContactPage.form');
   const [state, formAction, isPending] = useActionState(submitContactAction, null);
 
   return (
     <div>
-      <h2 className="text-2xl font-extrabold text-[#01277A]">Send Us a Message</h2>
+      <h2 className="text-2xl font-extrabold text-[#01277A]">{t('heading')}</h2>
       <p className="mt-2 text-sm text-gray-500">
-        Have a question or feedback? Fill out the form below and our team will get back to you.
+        {t('subtitle')}
       </p>
 
       <form action={formAction} className="mt-6 space-y-4">
@@ -35,24 +37,24 @@ export function ContactForm() {
               name="fullName"
               type="text"
               required
-              placeholder="Full Name *"
+              placeholder={t('fullName')}
               className={inputClasses}
             />
             {state?.errors?.fullName && <p className="mt-1 text-xs text-red-500">{state.errors.fullName[0]}</p>}
           </div>
           <div>
-            <input name="email" type="email" required placeholder="Email Address *" className={inputClasses} />
+            <input name="email" type="email" required placeholder={t('email')} className={inputClasses} />
             {state?.errors?.email && <p className="mt-1 text-xs text-red-500">{state.errors.email[0]}</p>}
           </div>
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <input name="phone" type="tel" required placeholder="Phone Number *" className={inputClasses} />
+            <input name="phone" type="tel" required placeholder={t('phone')} className={inputClasses} />
             {state?.errors?.phone && <p className="mt-1 text-xs text-red-500">{state.errors.phone[0]}</p>}
           </div>
           <div>
-            <input name="subject" type="text" required placeholder="Subject *" className={inputClasses} />
+            <input name="subject" type="text" required placeholder={t('subject')} className={inputClasses} />
             {state?.errors?.subject && <p className="mt-1 text-xs text-red-500">{state.errors.subject[0]}</p>}
           </div>
         </div>
@@ -62,7 +64,7 @@ export function ContactForm() {
             name="message"
             rows={5}
             required
-            placeholder="Your Message *"
+            placeholder={t('message')}
             className={inputClasses}
           />
           {state?.errors?.message && <p className="mt-1 text-xs text-red-500">{state.errors.message[0]}</p>}
@@ -71,13 +73,13 @@ export function ContactForm() {
         <label className="flex items-start gap-2 text-xs text-gray-500 cursor-pointer">
           <input type="checkbox" required className="mt-0.5 h-4 w-4 rounded border-gray-200 text-emerald-600 focus:ring-[#01277A]" />
           <span>
-            I agree to the{' '}
+            {t('agreePrefix')}{' '}
             <a href="/privacy-policy" className="font-medium text-[#01277A] hover:text-emerald-600 underline-offset-2 hover:underline transition-colors">
-              privacy policy
+              {t('privacyPolicy')}
             </a>{' '}
-            and{' '}
+            {t('and')}{' '}
             <a href="/terms-of-use" className="font-medium text-[#01277A] hover:text-emerald-600 underline-offset-2 hover:underline transition-colors">
-              terms of use
+              {t('termsOfUse')}
             </a>
           </span>
         </label>
@@ -87,7 +89,7 @@ export function ContactForm() {
           disabled={isPending}
           className="group flex w-fit items-center gap-2 rounded-lg bg-emerald-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 transition-all duration-300"
         >
-          {isPending ? 'Sending...' : 'Send Message'}
+          {isPending ? t('sending') : t('sendMessage')}
           <Send className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </button>
       </form>

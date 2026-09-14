@@ -1,30 +1,37 @@
 'use client';
 
-import Link from 'next/link';
+import NextLink from 'next/link';
 import { useState } from 'react';
 import { HelpCircle, ChevronDown, Headphones, ArrowRight } from 'lucide-react';
-import { contactFaq } from '@/data/contact-content';
+import { useTranslations } from 'next-intl';
+
+interface FaqEntry {
+  question: string;
+  answer: string;
+}
 
 export function ContactFAQ() {
-  const [openId, setOpenId] = useState<string | null>(null);
+  const t = useTranslations('ContactPage.faq');
+  const items = t.raw('items') as FaqEntry[];
+  const [openId, setOpenId] = useState<number | null>(null);
 
   return (
     <div>
-      <h2 className="text-2xl font-extrabold text-[#01277A]">Frequently Asked Questions</h2>
+      <h2 className="text-2xl font-extrabold text-[#01277A]">{t('heading')}</h2>
 
       {/* Separate individual cards with hover elevation and translation */}
       <div className="mt-6 space-y-3">
-        {contactFaq.map((item) => {
-          const isOpen = openId === item.id;
+        {items.map((item, index) => {
+          const isOpen = openId === index;
           return (
             <div
-              key={item.id}
+              key={item.question}
               className={`group rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-gray-200 hover:shadow-md ${
                 isOpen ? 'border-gray-200 shadow-md' : ''
               }`}
             >
               <button
-                onClick={() => setOpenId(isOpen ? null : item.id)}
+                onClick={() => setOpenId(isOpen ? null : index)}
                 className="flex w-full items-center justify-between gap-3 text-left"
                 aria-expanded={isOpen}
               >
@@ -56,16 +63,16 @@ export function ContactFAQ() {
             <Headphones className="h-5 w-5" />
           </span>
           <div>
-            <p className="text-sm font-bold text-[#01277A]">Need More Help?</p>
-            <p className="text-xs text-gray-600">Our customer service team is ready to assist you.</p>
+            <p className="text-sm font-bold text-[#01277A]">{t('needMoreHelp.title')}</p>
+            <p className="text-xs text-gray-600">{t('needMoreHelp.description')}</p>
           </div>
         </div>
-        <Link
+        <NextLink
           href="tel:+251582201033"
           className="flex shrink-0 items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-300 hover:bg-emerald-700 hover:shadow-md hover:-translate-y-0.5"
         >
-          Call Us Now <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-        </Link>
+          {t('needMoreHelp.callUsNow')} <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+        </NextLink>
       </div>
     </div>
   );

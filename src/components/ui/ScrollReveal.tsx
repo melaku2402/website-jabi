@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
@@ -43,7 +44,10 @@ export default function ScrollReveal({
           observer.disconnect();
         }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
+      {
+        threshold: 0.01, // Changed from 0.15: triggers as soon as 1% is visible (fixes tall mobile layouts)
+        rootMargin: "0px 0px 50px 0px", // Changed from -40px: triggers 50px before entering viewport
+      },
     );
 
     observer.observe(el);

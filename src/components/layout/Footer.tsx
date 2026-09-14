@@ -1,11 +1,13 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
 import { MapPin, Phone, Mail, Clock, Facebook, Twitter, Linkedin, Youtube } from 'lucide-react';
 import { mainNavLinks, footerServiceLinks, footerResourceLinks, siteContact } from '@/data/site-config';
 
 const socialIcons = { facebook: Facebook, twitter: Twitter, linkedin: Linkedin, youtube: Youtube };
 
-export function Footer() {
+export async function Footer() {
+  const t = await getTranslations();
   return (
     <footer className="bg-blue-950 text-blue-100">
       <div className="mx-auto max-w-7xl px-5 py-8 sm:px-6 sm:py-10 lg:py-12">
@@ -29,13 +31,13 @@ export function Footer() {
                 className="h-12 w-12 object-contain" 
               />
               <div className="leading-tight">
-                <p className="text-sm font-bold text-white">JABI COOPERATIVES</p>
-                <p className="text-[10px] font-semibold text-emerald-400">SAVING &amp; CREDIT UNION S.C</p>
+                <p className="text-sm font-bold text-white">{t('Footer.brandName')}</p>
+                <p className="text-[10px] font-semibold text-emerald-400">{t('Footer.brandTagline')}</p>
               </div>
             </div>
-            <p className="mt-3 text-xs italic text-blue-300">Together for a Better Life!</p>
+            <p className="mt-3 text-xs italic text-blue-300">{t('Footer.tagline')}</p>
             <p className="mt-2 text-xs leading-relaxed text-blue-200 sm:text-sm md:max-w-xs lg:max-w-none">
-              We are committed to providing reliable, innovative and inclusive financial services to our members and communities.
+              {t('Footer.description')}
             </p>
             <div className="mt-4 flex items-center gap-2.5">
               {(['facebook', 'twitter', 'linkedin', 'youtube'] as const).map((key) => {
@@ -57,13 +59,13 @@ export function Footer() {
           {/* Quick links */}
           <div className="col-span-1">
             <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-white sm:text-sm sm:normal-case">
-              Quick Links
+              {t('Footer.quickLinks')}
             </h4>
             <ul className="space-y-2 text-xs text-blue-200 sm:text-sm">
               {mainNavLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="hover:text-emerald-400">
-                    {link.label}
+                    {t(`common.nav.${link.key}`)}
                   </Link>
                 </li>
               ))}
@@ -73,13 +75,13 @@ export function Footer() {
           {/* Services */}
           <div className="col-span-1">
             <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-white sm:text-sm sm:normal-case">
-              Our Services
+              {t('Footer.ourServices')}
             </h4>
             <ul className="space-y-2 text-xs text-blue-200 sm:text-sm">
               {footerServiceLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="hover:text-emerald-400">
-                    {link.label}
+                    {t(`Footer.serviceLinks.${link.key}`)}
                   </Link>
                 </li>
               ))}
@@ -89,13 +91,13 @@ export function Footer() {
           {/* Resources */}
           <div className="col-span-1">
             <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-white sm:text-sm sm:normal-case">
-              Resources
+              {t('Footer.resources')}
             </h4>
             <ul className="space-y-2 text-xs text-blue-200 sm:text-sm">
               {footerResourceLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="hover:text-emerald-400">
-                    {link.label}
+                    {t(`Footer.resourceLinks.${link.key}`)}
                   </Link>
                 </li>
               ))}
@@ -105,7 +107,7 @@ export function Footer() {
           {/* Contact */}
           <div className="col-span-1 sm:col-span-1 md:col-span-1">
             <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-white sm:text-sm sm:normal-case">
-              Contact Us
+              {t('Footer.contactUs')}
             </h4>
             <ul className="space-y-2 text-xs text-blue-200 sm:text-sm">
               <li className="flex items-start gap-1.5">
@@ -135,10 +137,10 @@ export function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-blue-900">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-4 text-center text-xs text-blue-300 sm:flex-row sm:text-left">
-          <p>© {new Date().getFullYear()} Jabi Cooperatives Saving &amp; Credit Union S.C. All Rights Reserved.</p>
+          <p>{t('Footer.copyright', { year: new Date().getFullYear() })}</p>
           <div className="flex items-center gap-4">
-            <Link href="/privacy-policy" className="hover:text-emerald-400">Privacy Policy</Link>
-            <Link href="/terms-of-use" className="hover:text-emerald-400">Terms of Use</Link>
+            <Link href="/privacy-policy" className="hover:text-emerald-400">{t('Footer.privacyPolicy')}</Link>
+            <Link href="/terms-of-use" className="hover:text-emerald-400">{t('Footer.termsOfUse')}</Link>
           </div>
         </div>
       </div>

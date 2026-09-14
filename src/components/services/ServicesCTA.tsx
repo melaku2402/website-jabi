@@ -1,8 +1,10 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
+import { getTranslations } from 'next-intl/server';
 import { ArrowRight } from 'lucide-react';
 
-export function ServicesCTA() {
+export async function ServicesCTA() {
+  const t = await getTranslations('ServicesCTA');
   return (
     <section className="mx-auto max-w-7xl px-6 pb-8">
       {/* Container with section-wide hover lift and shadow */}
@@ -23,10 +25,10 @@ export function ServicesCTA() {
           <div className="flex flex-1 flex-col items-center justify-between gap-6 px-8 py-8 sm:flex-row">
             <div>
               <h2 className="text-xl font-extrabold text-white sm:text-2xl">
-                Need Financial Services?
+                {t('heading')}
               </h2>
               <p className="mt-1.5 max-w-md text-sm text-blue-100/90">
-                We are here to help you achieve your financial goals. Open an account today and enjoy member benefits.
+                {t('description')}
               </p>
             </div>
 
@@ -36,7 +38,7 @@ export function ServicesCTA() {
                 href="/membership"
                 className="group/btn inline-flex items-center justify-center gap-2.5 rounded-xl bg-emerald-600 px-7 py-3 text-base font-bold text-white shadow-lg shadow-emerald-600/25 transition-all duration-300 hover:bg-emerald-500 hover:shadow-xl hover:shadow-emerald-600/35 hover:-translate-y-0.5 active:translate-y-0 sm:text-sm"
               >
-                <span>Open an Account</span>
+                <span>{t('openAccount')}</span>
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
               </Link>
 
@@ -45,7 +47,7 @@ export function ServicesCTA() {
                 href="/contact"
                 className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 py-3 text-base font-semibold text-white transition-all duration-300 hover:border-white/40 hover:bg-white/10 hover:-translate-y-0.5 active:translate-y-0 sm:text-sm"
               >
-                Contact Us
+                {t('contactUs')}
               </Link>
             </div>
           </div>

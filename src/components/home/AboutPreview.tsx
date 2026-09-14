@@ -1,11 +1,13 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
+import { getTranslations } from 'next-intl/server';
 import { Eye, Target, Gem, ArrowRight } from 'lucide-react';
 import { visionMissionValues } from '@/data/about-content';
 
 const icons = { vision: Eye, mission: Target, values: Gem };
 
-export function AboutPreview() {
+export async function AboutPreview() {
+  const t = await getTranslations('HomePage.about');
   return (
     <section className="bg-slate-50 py-20">
       <div className="mx-auto max-w-7xl px-6">
@@ -13,17 +15,14 @@ export function AboutPreview() {
           {/* Text — 40% */}
           <div>
             <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">
-              About Jabi Cooperatives
+              {t('eyebrow')}
             </span>
             <h2 className="mt-3 text-3xl font-extrabold leading-snug text-[#01277A] sm:text-4xl">
-              Stronger Together <br />
-              For A <span className="text-emerald-600">Better Tomorrow</span>
+              {t('headingLine1')} <br />
+              {t('headingLine2Prefix')} <span className="text-emerald-600">{t('headingHighlight')}</span>
             </h2>
             <p className="mt-5 text-sm leading-relaxed text-gray-600">
-              Established in 1996 E.C., Jabi Cooperatives Saving &amp; Credit Union has grown into a strong
-              financial institution dedicated to providing reliable, innovative and inclusive financial services
-              to our members and communities. We are driven by the cooperative values and principles that put
-              people first.
+              {t('description')}
             </p>
 
             {/* Premium Illuminated CTA Button */}
@@ -35,7 +34,7 @@ export function AboutPreview() {
                 {/* Glowing Emerald Gradient Accent */}
                 <span className="absolute inset-0 bg-gradient-to-r from-emerald-600/0 via-emerald-500/20 to-emerald-600/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 
-                <span className="relative z-10">More About Us</span>
+                <span className="relative z-10">{t('cta')}</span>
                 <ArrowRight className="relative z-10 h-4 w-4 text-emerald-400 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-white" />
               </Link>
             </div>
@@ -58,6 +57,10 @@ export function AboutPreview() {
           <div className="flex flex-col justify-center gap-4">
             {visionMissionValues.map((item) => {
               const Icon = icons[item.icon as keyof typeof icons];
+              const translatedTitle = t(`visionMissionValues.${item.icon}.title`);
+              const translatedDescription = item.list
+                ? t.raw(`visionMissionValues.${item.icon}.list`).join(', ')
+                : t(`visionMissionValues.${item.icon}.description`);
               return (
                 <div
                   key={item.title}
@@ -68,10 +71,10 @@ export function AboutPreview() {
                   </span>
                   <div>
                     <p className="text-sm font-bold text-[#01277A] transition-colors duration-300 group-hover:text-emerald-600">
-                      {item.title}
+                      {translatedTitle}
                     </p>
                     <p className="mt-0.5 text-xs leading-relaxed text-gray-500">
-                      {item.description ?? item.list?.join(', ')}
+                      {translatedDescription}
                     </p>
                   </div>
                 </div>

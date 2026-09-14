@@ -8,11 +8,212 @@ datasource db {
 }
 
 model Contact {
-  id        String   @id @default(cuid())
+  id        String        @id @default(cuid())
   fullName  String
   email     String
   phone     String
   subject   String
   message   String
+  status    MessageStatus @default(unread)
+  createdAt DateTime      @default(now())
+}
+
+enum MessageStatus {
+  unread
+  read
+  replied
+}
+
+enum ContentStatus {
+  published
+  draft
+  archived
+}
+
+enum SubscriberStatus {
+  active
+  unsubscribed
+}
+
+// Bilingual text fields are stored as parallel columns (fooEn / fooAm)
+// rather than a separate translations table — the site only ever needs
+// two locales, so this keeps admin forms and queries simple with no joins.
+
+model NewsArticle {
+  id           String        @id @default(cuid())
+  slug         String        @unique
+  titleEn      String
+  titleAm      String
+  excerptEn    String        @db.Text
+  excerptAm    String        @db.Text
+  contentEn    String        @db.Text
+  contentAm    String        @db.Text
+  category     String
+  imageUrl     String
+  status       ContentStatus @default(draft)
+  author       String
+  publishedAt  DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Testimonial {
+  id         String        @id @default(cuid())
+  name       String
+  positionEn String
+  positionAm String
+  quoteEn    String        @db.Text
+  quoteAm    String        @db.Text
+  avatar     String
+  rating     Int?
+  status     ContentStatus @default(draft)
+  order      Int           @default(0)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+model TeamMember {
+  id           String        @id @default(cuid())
+  name         String
+  positionEn   String
+  positionAm   String
+  departmentEn String
+  departmentAm String
+  photo        String
+  order        Int           @default(0)
+  status       ContentStatus @default(draft)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+// Homepage / about-page stat strips (Members, Branches, Total Assets, etc).
+model OrgStat {
+  id        String   @id @default(cuid())
+  key       String   @unique // stable id used by translation lookups, e.g. "members"
+  labelEn   String
+  labelAm   String
+  value     String
+  suffix    String?
+  order     Int      @default(0)
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ImpactMetric {
+  id            String   @id @default(cuid())
+  key           String   @unique
+  labelEn       String
+  labelAm       String
+  value         String
+  descriptionEn String   @db.Text
+  descriptionAm String   @db.Text
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model HistoryMilestone {
+  id            String   @id @default(cuid())
+  key           String   @unique
+  year          String
+  titleEn       String
+  titleAm       String
+  descriptionEn String   @db.Text
+  descriptionAm String   @db.Text
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Partner {
+  id            String        @id @default(cuid())
+  name          String
+  descriptionEn String        @db.Text
+  descriptionAm String        @db.Text
+  logo          String
+  website       String
+  status        ContentStatus @default(draft)
+  order         Int           @default(0)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model GalleryImage {
+  id        String        @id @default(cuid())
+  titleEn   String
+  titleAm   String
+  image     String
+  category  String
+  date      DateTime
+  status    ContentStatus @default(draft)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+model Report {
+  id         String        @id @default(cuid())
+  nameEn     String
+  nameAm     String
+  type       String
+  year       String
+  fileUrl    String
+  fileSize   String
+  status     ContentStatus @default(draft)
+  uploadedAt DateTime      @default(now())
+}
+
+model NewsletterSubscriber {
+  id           String           @id @default(cuid())
+  email        String           @unique
+  status       SubscriberStatus @default(active)
+  subscribedAt DateTime         @default(now())
+}
+
+// Single-row table holding all site-wide settings as JSON, editable from
+// the admin Settings page. A dedicated row-per-field schema would be more
+// "normalized" but this content changes as a unit from one form, so one
+// JSON blob keeps the admin save action a single atomic write.
+model SiteSettings {
+  id        String   @id @default("singleton")
+  data      Json
+  updatedAt DateTime @updatedAt
+}
+
+enum AdminRole {
+  super_admin
+  admin
+  editor
+}
+
+enum AdminStatus {
+  active
+  inactive
+}
+
+model AdminUser {
+  id           String      @id @default(cuid())
+  name         String
+  email        String      @unique
+  passwordHash String
+  role         AdminRole   @default(editor)
+  avatar       String      @default("")
+  status       AdminStatus @default(active)
+  lastLogin    DateTime?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  sessions     AdminSession[]
+}
+
+// Server-side session record backing the httpOnly session cookie.
+// Looked up on every request to a protected /admin route so a session
+// can be revoked immediately (unlike a stateless JWT).
+model AdminSession {
+  id        String    @id @default(cuid())
+  token     String    @unique
+  userId    String
+  user      AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
 }

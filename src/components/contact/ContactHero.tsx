@@ -1,17 +1,19 @@
 import { ShieldCheck, Users, Eye, TrendingUp } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import { PageHero } from '@/components/ui/PageHero';
 import { trustBadges } from '@/data/contact-content';
 
 const icons = { reliable: ShieldCheck, memberFocused: Users, transparency: Eye, growth: TrendingUp };
 
-export function ContactHero() {
+export async function ContactHero() {
+  const t = await getTranslations('ContactPage.hero');
   return (
     <PageHero
-      title="Contact Us"
-      breadcrumbLabel="Contact Us"
+      title={t('title')}
+      breadcrumbLabel={t('breadcrumb')}
       imageSrc="/images/contact/hero-building.jpg"
       imageAlt="Jabi Cooperatives office building"
-      description="We are here to help you! Reach out to us for any inquiries, support or feedback."
+      description={t('description')}
     >
       {/* <div className="mt-4 flex flex-wrap gap-3">
         {trustBadges.map((badge) => {
