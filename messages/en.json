@@ -1,0 +1,599 @@
+{
+  "common": {
+    "nav": {
+      "home": "Home",
+      "about": "About Us",
+      "services": "Services",
+      "news": "News & Events",
+      "contact": "Contact Us"
+    },
+    "becomeMember": "Become a Member",
+    "switchToAmharic": "አማርኛ",
+    "switchToEnglish": "English"
+  },
+  "Header": {
+    "quickAccess": "Quick Access",
+    "closeMenu": "Close menu",
+    "toggleMenu": "Toggle navigation menu"
+  },
+  "Footer": {
+    "brandName": "JABI COOPERATIVES",
+    "brandTagline": "SAVING & CREDIT UNION S.C",
+    "tagline": "Together for a Better Life!",
+    "description": "We are committed to providing reliable, innovative and inclusive financial services to our members and communities.",
+    "quickLinks": "Quick Links",
+    "ourServices": "Our Services",
+    "resources": "Resources",
+    "contactUs": "Contact Us",
+    "workingHours": "Mon - Fri: 8:00 AM - 5:00 PM",
+    "copyright": "© {year} Jabi Cooperatives Saving & Credit Union S.C. All Rights Reserved.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfUse": "Terms of Use",
+    "serviceLinks": {
+      "savings": "Savings",
+      "loans": "Loans",
+      "fixedDeposit": "Fixed Deposit",
+      "moneyTransfer": "Money Transfer",
+      "financialEducation": "Financial Education",
+      "otherServices": "Other Services"
+    },
+    "resourceLinks": {
+      "annualReports": "Annual Reports",
+      "financialStatements": "Financial Statements",
+      "policies": "Policies",
+      "formsAndDocuments": "Forms & Documents",
+      "downloads": "Downloads",
+      "faqs": "FAQs"
+    }
+  },
+  "HomePage": {
+    "hero": {
+      "titleLine1": "Your Trust,",
+      "titleLine2Prefix": "Our",
+      "titleHighlight": "Commitment!",
+      "subtitle": "Building stronger communities through reliable, innovative, and inclusive financial services.",
+      "openAccount": "Open an Account",
+      "ourServices": "Our Services"
+    },
+    "stats": {
+      "members": "Members",
+      "cooperatives": "Primary Cooperatives",
+      "branches": "Branches",
+      "employees": "Employees",
+      "assets": "Total Assets",
+      "loans": "Total Loans"
+    },
+    "services": {
+      "eyebrow": "Our Services",
+      "heading": "Financial Solutions Designed For You",
+      "learnMore": "Learn More",
+      "items": {
+        "savings": {
+          "title": "Savings",
+          "description": "Secure your future and earn interest on flexible savings options."
+        },
+        "loans": {
+          "title": "Loans",
+          "description": "Flexible financing solutions including Agricultural, Business, Emergency, and Education loans."
+        },
+        "fixedDeposit": {
+          "title": "Fixed Deposit",
+          "description": "Grow your savings with flexible and secure fixed deposits."
+        },
+        "moneyTransfer": {
+          "title": "Money Transfer",
+          "description": "Send and receive money quickly and safely."
+        },
+        "financialEducation": {
+          "title": "Financial Education",
+          "description": "We empower our members with financial knowledge."
+        },
+        "other": {
+          "title": "Other Services",
+          "description": "ATM, Bill Payment, Insurance and more services."
+        }
+      }
+    },
+    "about": {
+      "eyebrow": "About Jabi Cooperatives",
+      "headingLine1": "Stronger Together",
+      "headingLine2Prefix": "For A",
+      "headingHighlight": "Better Tomorrow",
+      "description": "Established in 1996 E.C., Jabi Cooperatives Saving & Credit Union has grown into a strong financial institution dedicated to providing reliable, innovative and inclusive financial services to our members and communities. We are driven by the cooperative values and principles that put people first.",
+      "cta": "More About Us",
+      "visionMissionValues": {
+        "vision": {
+          "title": "Our Vision",
+          "description": "To be a leading cooperative financial institution in Ethiopia."
+        },
+        "mission": {
+          "title": "Our Mission",
+          "description": "To provide quality financial services and create value for members."
+        },
+        "values": {
+          "title": "Our Values",
+          "list": [
+            "Transparency",
+            "Integrity",
+            "Accountability",
+            "Solidarity",
+            "Professionalism"
+          ]
+        }
+      }
+    },
+    "impact": {
+      "eyebrow": "Our Impact In Numbers",
+      "items": {
+        "assets": "Total Assets",
+        "capital": "Total Capital",
+        "surplus": "Net Surplus",
+        "growth": "Annual Asset Growth (2019-2023)",
+        "years": "Years of Trusted Service"
+      }
+    },
+    "news": {
+      "eyebrow": "News & Events",
+      "heading": "Latest News & Updates",
+      "viewAll": "View All News",
+      "readMore": "Read More",
+      "moreNews": "More News",
+      "moreNewsDescription": "Stay updated with the latest news and events.",
+      "categories": {
+        "announcement": "Announcement",
+        "branch-update": "Branch",
+        "event": "Event",
+        "training": "Training",
+        "community": "Community",
+        "financial-education": "Financial Education"
+      }
+    },
+    "partners": {
+      "eyebrow": "Our Partners",
+      "items": {
+        "cooperative-commission": "Cooperative Commission",
+        "nbe": "National Bank of Ethiopia",
+        "cbe": "Commercial Bank of Ethiopia",
+        "eic": "Ethiopian Insurance Corporation",
+        "dashin-bank": "Dashin Bank",
+        "tseday-bank": "Tsedey Bank",
+        "ethioTell": "Ethio telecom",
+        "other-partners": "Other Partners"
+      }
+    },
+    "cta": {
+      "heading": "Join Jabi Cooperatives Today!",
+      "description": "Become a member and enjoy secure, reliable and beneficial financial services.",
+      "perks": {
+        "easySavings": "Easy Savings",
+        "affordableLoans": "Affordable Loans",
+        "betterTomorrow": "Better Tomorrow"
+      },
+      "openAccount": "Open an Account",
+      "contactUs": "Contact Us"
+    },
+    "testimonials": {
+      "eyebrow": "Testimonials",
+      "heading": "What Our Members Say About Us"
+    }
+  },
+  "AboutPage": {
+    "hero": {
+      "title": "About Us",
+      "breadcrumb": "About Us",
+      "description": "Jabi Cooperatives Saving & Credit Union S.C has been serving its members with dedication, transparency, and innovation since 1996 E.C."
+    },
+    "whoWeAre": {
+      "label": "Who We Are",
+      "heading": "Building Stronger Communities Through Financial Cooperation",
+      "paragraph1": "Established in 1996 E.C., Jabi Cooperatives Saving & Credit Union S.C is a trusted financial institution dedicated to providing accessible, affordable and innovative financial services to individuals, families and communities. We are driven by the cooperative values and principles that put people first.",
+      "paragraph2": "We believe in the power of saving together and growing together. Our members are at the heart of everything we do.",
+      "signatoryTitle": "General Manager",
+      "establishedLabel": "Established"
+    },
+    "objectives": {
+      "heading": "Our Objectives",
+      "left": [
+        "Mobilize savings and other financial resources from members.",
+        "Provide affordable and appropriate credit services to members.",
+        "Promote a culture of saving and responsible borrowing.",
+        "Enhance financial literacy and business development of members."
+      ],
+      "right": [
+        "Ensure the financial sustainability and growth of the union.",
+        "Deliver excellent and innovative financial services.",
+        "Contribute to the social and economic development of the community.",
+        "Uphold cooperative principles and values in all operations."
+      ]
+    },
+    "journey": {
+      "eyebrow": "Our Journey",
+      "heading": "Milestones of Growth and Impact",
+      "milestones": {
+        "flag": {
+          "year": "1996 E.C.",
+          "description": "Established with 25 founding members and a shared vision."
+        },
+        "members": {
+          "year": "2000 E.C.",
+          "description": "Expanded membership and introduced new financial services."
+        },
+        "systems": {
+          "year": "2010 E.C.",
+          "description": "Strengthened systems and opened additional service points."
+        },
+        "growth": {
+          "year": "2020 E.C.",
+          "description": "Embraced digital innovation for better member experience."
+        },
+        "today": {
+          "year": "Today",
+          "description": "Continuing our mission to empower members and communities."
+        }
+      }
+    },
+    "managementTeam": {
+      "heading": "Management Team",
+      "previous": "Previous",
+      "next": "Next",
+      "roles": {
+        "1": "General Manager",
+        "2": "Deputy General Manager",
+        "3": "Head of Operations",
+        "4": "Head of Finance",
+        "5": "Head of Credit"
+      }
+    },
+    "unionComparison": {
+      "heading": "Jabi Union vs. Other Financial Institutions",
+      "subtitle": "Understanding our shared financial capabilities and unique cooperative advantages.",
+      "similarities": {
+        "heading": "Similarities",
+        "subtitle": "Core financial functions shared with banks",
+        "items": [
+          "Provides various types of financial savings services like any standard financial institution.",
+          "Calculates and pays interest on deposited/saved funds.",
+          "Offers credit and loan services to qualified members.",
+          "Ensure member fund security and confidentiality.",
+          "provide financial statements and reporting.",
+          "provide loan and credit facilities.",
+          "Accept deposits from members.",
+          "Offer saving and fixed deposit accounts."
+        ]
+      },
+      "differences": {
+        "badge": "Cooperative Advantage",
+        "heading": "Key Differences",
+        "subtitle": "What makes Jabi Union stand out",
+        "items": [
+          "Operates strictly based on the plans and democratic decisions of member primary cooperatives.",
+          "Member cooperatives are the direct owners of all the Union's assets.",
+          "Provides loans at lower interest rates (8% – 14%) as determined by the general assembly.",
+          "Distributes annual net profits back to member cooperatives as dividends.",
+          "Provides professional training and technical support to cooperative leaders and employees.",
+          "Tailors all operations and financial services directly to member needs.",
+          "Pays higher savings interest rates (7.5%) compared to conventional financial institutions.",
+          "Serves all community segments, ensuring access for low-income individuals without heavy collateral.",
+          "Offers competitive time/fixed-deposit interest rates ranging from 8% to 11%."
+        ]
+      },
+      "rates": {
+        "loanRates": "Loan Rates",
+        "savingsRate": "Savings Rate",
+        "fixedDeposit": "Fixed Deposit"
+      }
+    },
+    "impactStats": {
+      "heading": "Our Impact in Numbers"
+    }
+  },
+  "ServicesCTA": {
+    "heading": "Need Financial Services?",
+    "description": "We are here to help you achieve your financial goals. Open an account today and enjoy member benefits.",
+    "openAccount": "Open an Account",
+    "contactUs": "Contact Us"
+  },
+  "ServicesPage": {
+    "hero": {
+      "title": "Our Services",
+      "breadcrumb": "Services",
+      "description": "Reliable and innovative financial services designed to empower our members and communities."
+    },
+    "featured": {
+      "label": "Featured Service",
+      "title": "Personal & Business Loans",
+      "description": "We provide flexible loan solutions to help you achieve your personal and business goals.",
+      "features": [
+        "Agricultural Loan",
+        "Business Loan",
+        "Emergency Loan",
+        "Education Loan"
+      ],
+      "ctaLabel": "Apply Now"
+    },
+    "whyChooseUs": {
+      "heading": "Why Choose Our Services?",
+      "items": [
+        "Fast and easy process",
+        "Competitive rates and fees",
+        "Secure and reliable transactions",
+        "Professional and friendly support",
+        "Digital banking convenience",
+        "Trusted by thousands of members"
+      ]
+    },
+    "faq": {
+      "heading": "Frequently Asked Questions",
+      "items": [
+        {
+          "question": "Who can access Jabi Cooperative services?",
+          "answer": "Any registered member of Jabi Cooperatives Saving & Credit Union in good standing can access our full range of services."
+        },
+        {
+          "question": "What are the requirements for a loan?",
+          "answer": "Applicants need an active membership account, valid identification, proof of income or collateral, and a completed loan application form."
+        },
+        {
+          "question": "How long does loan approval take?",
+          "answer": "Most loan applications are reviewed and approved within a few business days after all required documents are submitted."
+        },
+        {
+          "question": "Can I apply for more than one loan?",
+          "answer": "Members may hold multiple loan products subject to eligibility review and their overall repayment capacity."
+        },
+        {
+          "question": "How can I repay my loan?",
+          "answer": "Repayments can be made at any branch, through payroll deduction, or via our mobile banking channels."
+        }
+      ]
+    },
+    "howItWorks": {
+      "heading": "How It Works",
+      "steps": {
+        "01": {
+          "title": "Become a Member",
+          "description": "Join Jabi Cooperatives and open an account."
+        },
+        "02": {
+          "title": "Apply",
+          "description": "Choose the service and submit your application."
+        },
+        "03": {
+          "title": "Verification",
+          "description": "We verify your documents and information."
+        },
+        "04": {
+          "title": "Approval",
+          "description": "Your application is reviewed and approved."
+        },
+        "05": {
+          "title": "Receive Service",
+          "description": "Enjoy fast, secure and reliable financial services."
+        }
+      }
+    }
+  },
+  "ServiceDetailPage": {
+    "backToAll": "Back to All Services",
+    "financialSolution": "Financial Solution",
+    "applyInquire": "Apply / Inquire Now",
+    "availableLoanOptions": {
+      "heading": "Available Loan Options",
+      "subtitle": "Explore our range of tailored financing solutions designed to fit your unique requirements."
+    },
+    "keyFeaturesBenefits": "Key Features & Benefits",
+    "defaultFeatures": [
+      "Competitive interest rates tailored for member growth",
+      "Flexible payment plans and transparent terms",
+      "Dedicated support from financial advisors",
+      "Seamless online and branch access"
+    ],
+    "howItWorksHeading": "How It Works",
+    "howItWorksParagraph": "Our process is designed to be simple, efficient, and user-friendly. Members can get started by visiting any of our local branches or contacting our support team directly.",
+    "memberProtection": {
+      "title": "Member Protection",
+      "description": "All services are backed by standard regulatory guidelines and member security protocols."
+    },
+    "needAssistance": {
+      "title": "Need Assistance?",
+      "description": "Have questions regarding eligibility or documentation requirements?",
+      "contactSupport": "Contact Support"
+    },
+    "exploreOtherServices": "Explore Other Services",
+    "applyFor": "Apply for"
+  },
+  "LoanTypes": {
+    "agricultural-loan": {
+      "title": "Agricultural Loan",
+      "description": "Empowering farmers and agricultural enterprises with tailored financing for equipment, seeds, livestock, and land development.",
+      "features": [
+        "Seasonal repayment plans matching harvest cycles",
+        "Competitive interest rates for rural farmers",
+        "Financing for modern machinery, seeds, and fertilizers"
+      ]
+    },
+    "business-loan": {
+      "title": "Business Loan",
+      "description": "Fuel your business growth with capital for working capital, inventory expansion, technology upgrades, or operational needs.",
+      "features": [
+        "Flexible loan terms tailored to cash flow",
+        "Fast approval process for micro and small enterprises",
+        "High ceiling limits for cooperative members"
+      ]
+    },
+    "emergency-loan": {
+      "title": "Emergency Loan",
+      "description": "Quick financial relief designed to help members navigate unexpected urgent expenses, medical bills, or personal crises.",
+      "features": [
+        "Fast-track 24–48 hour processing time",
+        "Minimal documentation requirements",
+        "Manageable short-term repayment options"
+      ]
+    },
+    "education-loan": {
+      "title": "Education Loan",
+      "description": "Invest in the future with dedicated loans covering tuition fees, training programs, books, and educational materials.",
+      "features": [
+        "Low, subsidized interest rates for students and parents",
+        "Flexible schedules aligned with academic terms",
+        "Covers domestic and international study expenses"
+      ]
+    }
+  },
+  "ContactPage": {
+    "hero": {
+      "title": "Contact Us",
+      "breadcrumb": "Contact Us",
+      "description": "We are here to help you! Reach out to us for any inquiries, support or feedback."
+    },
+    "infoCards": {
+      "call": {
+        "title": "Call Us",
+        "note": "Mon - Fri: 8:00 AM - 5:00 PM"
+      },
+      "email": {
+        "title": "Email Us",
+        "note": "We reply within 24 hours"
+      },
+      "location": {
+        "title": "Head Office",
+        "note": "P.O.Box 1018"
+      },
+      "hours": {
+        "title": "Working Hours",
+        "note": "Saturday: 8:00 AM - 1:00 PM"
+      }
+    },
+    "form": {
+      "heading": "Send Us a Message",
+      "subtitle": "Have a question or feedback? Fill out the form below and our team will get back to you.",
+      "fullName": "Full Name *",
+      "email": "Email Address *",
+      "phone": "Phone Number *",
+      "subject": "Subject *",
+      "message": "Your Message *",
+      "agreePrefix": "I agree to the",
+      "privacyPolicy": "privacy policy",
+      "and": "and",
+      "termsOfUse": "terms of use",
+      "sending": "Sending...",
+      "sendMessage": "Send Message"
+    },
+    "map": {
+      "heading": "Our Location",
+      "headOffice": "Head Office",
+      "addressLine1": "Finote Selam, West Gojjam,",
+      "addressLine2": "Amhara Region, Ethiopia",
+      "poBox": "P.O.Box 1018",
+      "getDirections": "Get Directions"
+    },
+    "branches": {
+      "heading": "Our Branches",
+      "viewAll": "View All Branches"
+    },
+    "faq": {
+      "heading": "Frequently Asked Questions",
+      "items": [
+        {
+          "question": "How can I become a member of Jabi Cooperatives S.C.U?",
+          "answer": "Visit any branch with a valid ID and complete the membership application form. Our staff will guide you through account opening and the initial savings deposit."
+        },
+        {
+          "question": "What are the requirements for a loan?",
+          "answer": "You need an active membership account, valid identification, proof of income or collateral, and a completed loan application form."
+        },
+        {
+          "question": "How can I check my account balance?",
+          "answer": "You can check your balance at any branch, through our mobile banking service, or by calling our customer service line."
+        },
+        {
+          "question": "What are your interest rates on savings and loans?",
+          "answer": "Interest rates vary by product and are reviewed periodically. Please contact a branch or our support line for the most current rates."
+        },
+        {
+          "question": "How can I update my account information?",
+          "answer": "Visit your nearest branch with valid identification to update your account details, or contact customer support for guidance."
+        }
+      ],
+      "needMoreHelp": {
+        "title": "Need More Help?",
+        "description": "Our customer service team is ready to assist you.",
+        "callUsNow": "Call Us Now"
+      }
+    }
+  },
+  "NewsPage": {
+    "hero": {
+      "title": "News & Updates",
+      "breadcrumb": "News & Updates",
+      "description": "Stay informed with the latest news, announcements, events and activities from Jabi Cooperatives Saving & Credit Union S.C."
+    },
+    "featured": {
+      "eyebrow": "Featured News",
+      "readMore": "Read More"
+    },
+    "latest": {
+      "heading": "Latest News",
+      "empty": "No news articles found in this category.",
+      "viewMore": "View More",
+      "showLess": "Show Less",
+      "readMore": "Read More"
+    },
+    "categoriesSidebar": {
+      "heading": "Categories",
+      "all": "All News"
+    },
+    "upcomingEvents": {
+      "heading": "Upcoming Events",
+      "viewAll": "View All Events"
+    },
+    "photoGallery": {
+      "heading": "Photo Gallery",
+      "clickToView": "Click to view fully",
+      "viewMore": "View More",
+      "viewLess": "View Less"
+    },
+    "annualReports": {
+      "heading": "Annual Reports & Downloads",
+      "subtitle": "Access official financial disclosures and publication files."
+    },
+    "newsletter": {
+      "heading": "Subscribe to Our Newsletter",
+      "description": "Get the latest news, updates, and financial tips delivered directly to your inbox.",
+      "placeholder": "Enter your email address",
+      "subscribe": "Subscribe",
+      "subscribed": "Subscribed"
+    },
+    "detail": {
+      "backToNews": "Back to News & Events"
+    }
+  },
+  "FloatingNav": {
+    "scrollToTop": "Scroll to top",
+    "scrollToBottom": "Scroll to bottom",
+    "contactUs": "Contact Us"
+  },
+  "Metadata": {
+    "suffix": "Jabi Cooperatives Saving & Credit Union S.C",
+    "home": {
+      "title": "Home",
+      "description": "Jabi Cooperatives Saving & Credit Union S.C — building stronger communities through reliable, innovative and inclusive financial services."
+    },
+    "about": {
+      "title": "About Us",
+      "description": "Learn about Jabi Cooperatives Saving & Credit Union — our story, vision, mission, values, objectives, journey and management team."
+    },
+    "services": {
+      "title": "Our Services",
+      "description": "Reliable and innovative financial services designed to empower our members and communities — savings, loans, fixed deposits, money transfer and more."
+    },
+    "contact": {
+      "title": "Contact Us",
+      "description": "We are here to help you! Reach out to Jabi Cooperatives Saving & Credit Union S.C. for any inquiries, support or feedback."
+    },
+    "news": {
+      "title": "News & Updates",
+      "description": "Stay informed with the latest news, announcements, events and activities from Jabi Cooperatives Saving & Credit Union S.C."
+    }
+  }
+}
