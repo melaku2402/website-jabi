@@ -1,6 +1,7 @@
 'use client';
 
 import { Users, Landmark, Building2, Briefcase, Coins, HandCoins } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { primaryStats } from '@/data/stats';
 import { CountUp } from '@/components/home/CountUp';
 
@@ -23,15 +24,13 @@ const iconColors: Record<keyof typeof icons, string> = {
 };
 
 export function ImpactStats() {
+  const t = useTranslations('AboutPage.impactStats');
+  const tStats = useTranslations('HomePage.stats');
   return (
     <section className="mx-auto max-w-7xl px-6 py-16 sm:py-6">
-      {/* Title */}
-      {/* <h2 className="text-center text-4xl font-extrabold text-[#03387C] sm:text-4xl">
-       
-      </h2> */}
         <div className="mx-auto flex flex-col items-center text-center">
           <h2 className="text-2xl font-extrabold text-[#03387C] sm:text-3xl">
-             Our Impact in Numbers
+             {t('heading')}
           </h2>
         </div>
       {/* Full Outer Container - Shifts upward as a single block on hover */}
@@ -48,7 +47,7 @@ export function ImpactStats() {
               <p className="mt-3 text-2xl font-extrabold text-[#03387C]">
                 <CountUp value={`${stat.value}${stat.suffix ?? ''}`} />
               </p>
-              <p className="mt-1 text-xs font-medium text-gray-500">{stat.label}</p>
+              <p className="mt-1 text-xs font-medium text-gray-500">{tStats(stat.icon)}</p>
             </div>
           );
         })}
