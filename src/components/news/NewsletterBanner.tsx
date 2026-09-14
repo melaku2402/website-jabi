@@ -3,8 +3,10 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { Mail, CheckCircle2, Send } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export function NewsletterBanner() {
+  const t = useTranslations('NewsPage.newsletter');
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
@@ -36,11 +38,11 @@ export function NewsletterBanner() {
               <div className="flex items-center gap-2">
                 <Mail className="h-5 w-5 text-emerald-400" />
                 <h3 className="text-xl font-extrabold text-white">
-                  Subscribe to Our Newsletter
+                  {t('heading')}
                 </h3>
               </div>
               <p className="mt-1.5 max-w-md text-sm text-blue-100/90">
-                Get the latest news, updates, and financial tips delivered directly to your inbox.
+                {t('description')}
               </p>
             </div>
 
@@ -51,7 +53,7 @@ export function NewsletterBanner() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email address"
+                  placeholder={t('placeholder')}
                   /* Matched height with the larger button (py-3) */
                   className="min-w-0 w-full rounded-xl border border-white/10 bg-white px-4.5 py-3 text-base text-[#01277A] placeholder:text-gray-400 shadow-inner focus:outline-none focus:ring-2 focus:ring-emerald-400 sm:text-sm"
                 />
@@ -66,11 +68,11 @@ export function NewsletterBanner() {
                 {submitted ? (
                   <>
                     <CheckCircle2 className="h-5 w-5 text-white sm:h-4 sm:w-4" />
-                    <span>Subscribed</span>
+                    <span>{t('subscribed')}</span>
                   </>
                 ) : (
                   <>
-                    <span>Subscribe</span>
+                    <span>{t('subscribe')}</span>
                     <Send className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
                   </>
                 )}
