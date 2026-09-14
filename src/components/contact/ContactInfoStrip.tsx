@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import { contactInfoCards } from '@/data/contact-content';
 
 const icons = { call: Phone, email: Mail, location: MapPin, clock: Clock };
@@ -9,6 +10,13 @@ const iconBg = {
   clock: 'bg-emerald-600' 
 };
 
+const cardKeys: Record<string, 'call' | 'email' | 'location' | 'hours'> = {
+  call: 'call',
+  email: 'email',
+  location: 'location',
+  hours: 'hours',
+};
+
 // Helper function to return correct link href based on card type
 function getLineHref(type: keyof typeof icons, line: string): string | null {
   if (type === 'call') return `tel:${line.replace(/\s+/g, '')}`;
@@ -17,13 +25,15 @@ function getLineHref(type: keyof typeof icons, line: string): string | null {
   return null;
 }
 
-export function ContactInfoStrip() {
+export async function ContactInfoStrip() {
+  const t = await getTranslations('ContactPage.infoCards');
   return (
     <div className="relative z-20 mx-auto -mt-10 max-w-7xl px-6">
       <div className="grid grid-cols-1 gap-6 rounded-2xl border border-gray-100 bg-white p-8 shadow-lg sm:grid-cols-2 lg:grid-cols-4">
         {contactInfoCards.map((card) => {
           const Icon = icons[card.icon];
           const bgClass = iconBg[card.icon];
+          const cardKey = cardKeys[card.id] ?? card.icon;
 
           return (
             <div
@@ -36,7 +46,7 @@ export function ContactInfoStrip() {
                 <Icon className="h-5 w-5" />
               </span>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-bold text-[#01277A]">{card.title}</p>
+                <p className="text-sm font-bold text-[#01277A]">{t(`${cardKey}.title`)}</p>
                 {card.lines.map((line) => {
                   const href = getLineHref(card.icon, line);
 
@@ -57,7 +67,7 @@ export function ContactInfoStrip() {
                   );
                 })}
                 {card.note && (
-                  <p className="mt-1 text-[11px] text-gray-400">{card.note}</p>
+                  <p className="mt-1 text-[11px] text-gray-400">{t(`${cardKey}.note`)}</p>
                 )}
               </div>
             </div>
