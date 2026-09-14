@@ -1,7 +1,8 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { FileText, FileSpreadsheet, Download, FileCheck } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { annualDownloads } from '@/data/news-content';
 
 const fileTypeStyles: Record<string, { icon: typeof FileText; className: string }> = {
@@ -11,6 +12,7 @@ const fileTypeStyles: Record<string, { icon: typeof FileText; className: string 
 };
 
 export function AnnualReportsStrip() {
+  const t = useTranslations('NewsPage.annualReports');
   return (
     <div className="mx-auto max-w-7xl px-6 py-8">
       {/* Header Section */}
@@ -20,10 +22,10 @@ export function AnnualReportsStrip() {
         </span>
         <div>
           <h3 className="text-sm font-extrabold uppercase tracking-wider text-[#03387C]">
-            Annual Reports &amp; Downloads
+            {t('heading')}
           </h3>
           <p className="text-xs text-gray-500 font-medium">
-            Access official financial disclosures and publication files.
+            {t('subtitle')}
           </p>
         </div>
       </div>

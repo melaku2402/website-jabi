@@ -1,11 +1,13 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { Clock, MapPin, ArrowRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { upcomingEvents } from '@/data/news-content';
 
 export function UpcomingEvents() {
+  const t = useTranslations('NewsPage.upcomingEvents');
   return (
     <div className="rounded-xl border border-gray-100 bg-white p-5 shadow-sm">
-      <h3 className="text-sm font-bold uppercase tracking-widest text-blue-950">Upcoming Events</h3>
+      <h3 className="text-sm font-bold uppercase tracking-widest text-blue-950">{t('heading')}</h3>
 
       <div className="mt-4 space-y-5">
         {upcomingEvents.map((event, idx) => (
@@ -36,7 +38,7 @@ export function UpcomingEvents() {
         href="/news/events"
         className="mt-5 flex w-full items-center justify-center gap-2 rounded-lg bg-blue-950 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-900"
       >
-        View All Events <ArrowRight className="h-4 w-4" />
+        {t('viewAll')} <ArrowRight className="h-4 w-4" />
       </Link>
     </div>
   );
