@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { ServicesHero } from '@/components/services/ServicesHero';
 import { ServicesGrid } from "@/components/home/ServicesGrid";
 import { FeaturedService } from '@/components/services/FeaturedService';
@@ -12,11 +13,11 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'Metadata' });
 
   return {
-    title: 'Our Services | Jabi Cooperatives Saving & Credit Union S.C',
-    description:
-      'Reliable and innovative financial services designed to empower our members and communities — savings, loans, fixed deposits, money transfer and more.',
+    title: `${t('services.title')} | ${t('suffix')}`,
+    description: t('services.description'),
   };
 }
 
@@ -29,7 +30,7 @@ export default async function ServicesPage({
 
   return (
     <main>
-      <ScrollReveal>
+      <ScrollReveal delayMs={0}>
         <ServicesHero />
       </ScrollReveal>
       <ScrollReveal delayMs={100}>
