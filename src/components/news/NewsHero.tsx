@@ -1,13 +1,15 @@
+import { getTranslations } from 'next-intl/server';
 import { PageHero } from '@/components/ui/PageHero';
 
-export function NewsHero() {
+export async function NewsHero() {
+  const t = await getTranslations('NewsPage.hero');
   return (
     <PageHero
-      title="News & Updates"
-      breadcrumbLabel="News & Updates"
+      title={t('title')}
+      breadcrumbLabel={t('breadcrumb')}
       imageSrc="/images/news/hero-building.jpg"
       imageAlt="Jabi Cooperatives office building"
-      description="Stay informed with the latest news, announcements, events and activities from Jabi Cooperatives Saving & Credit Union S.C."
+      description={t('description')}
     />
   );
 }
