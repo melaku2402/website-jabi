@@ -27,3 +27,4 @@ export function formatDateTime(iso: string): { date: string; time: string } {
     }),
   };
 }
+Refactoring core application state
