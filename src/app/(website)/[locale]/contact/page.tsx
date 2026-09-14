@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { ContactHero } from '@/components/contact/ContactHero';
 import { ContactInfoStrip } from '@/components/contact/ContactInfoStrip';
 import { ContactFormAndMap } from '@/components/contact/ContactFormAndMap';
@@ -11,11 +12,11 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'Metadata' });
 
   return {
-    title: 'Contact Us | Jabi Cooperatives Saving & Credit Union S.C',
-    description:
-      'We are here to help you! Reach out to Jabi Cooperatives Saving & Credit Union S.C. for any inquiries, support or feedback.',
+    title: `${t('contact.title')} | ${t('suffix')}`,
+    description: t('contact.description'),
   };
 }
 
