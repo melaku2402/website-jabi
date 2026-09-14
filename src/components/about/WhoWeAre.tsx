@@ -1,22 +1,15 @@
 import Image from 'next/image';
 import { Caveat } from 'next/font/google';
 import { CalendarDays } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import { whoWeAreContent } from '@/data/about-content';
 
 // Real cursive font for the signature
 const caveat = Caveat({ subsets: ['latin'], weight: ['600', '700'] });
 
-export function WhoWeAre() {
-  const {
-    label,
-    heading,
-    paragraphs,
-    signatoryName,
-    signatoryTitle,
-    imageUrl,
-    establishedLabel,
-    establishedYear,
-  } = whoWeAreContent;
+export async function WhoWeAre() {
+  const t = await getTranslations('AboutPage.whoWeAre');
+  const { signatoryName, imageUrl, establishedYear } = whoWeAreContent;
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-20">
@@ -24,21 +17,20 @@ export function WhoWeAre() {
         {/* Left column */}
         <div>
           <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">
-            {label}
+            {t('label')}
           </span>
           <h2 className="mt-3 max-w-md text-2xl font-extrabold leading-snug text-[#01277A] sm:text-3xl">
-            {heading}
+            {t('heading')}
           </h2>
           <div className="mt-5 space-y-4 text-justify text-sm leading-relaxed text-gray-600">
-            {paragraphs.map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
+            <p>{t('paragraph1')}</p>
+            <p>{t('paragraph2')}</p>
           </div>
           <div className="mt-8 border-t border-gray-200 pt-5">
             <p className={`${caveat.className} text-3xl leading-none text-blue-950`}>
               {signatoryName}
             </p>
-            <p className="mt-1.5 text-sm font-medium text-gray-500">{signatoryTitle}</p>
+            <p className="mt-1.5 text-sm font-medium text-gray-500">{t('signatoryTitle')}</p>
           </div>
         </div>
 
@@ -60,7 +52,7 @@ export function WhoWeAre() {
               <CalendarDays className="h-5 w-5 text-white" />
             </span>
             <div className="leading-tight">
-              <p className="text-xs font-medium text-blue-200">{establishedLabel}</p>
+              <p className="text-xs font-medium text-blue-200">{t('establishedLabel')}</p>
               <p className="text-lg font-extrabold text-white">{establishedYear}</p>
             </div>
           </div>

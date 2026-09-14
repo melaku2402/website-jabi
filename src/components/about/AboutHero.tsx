@@ -1,14 +1,16 @@
+import { getTranslations } from 'next-intl/server';
 import { PageHero } from '@/components/ui/PageHero';
 
-export function AboutHero() {
+export async function AboutHero() {
+  const t = await getTranslations('AboutPage.hero');
   return (
     <PageHero
-      title="About Us"
-      breadcrumbLabel="About Us"
+      title={t('title')}
+      breadcrumbLabel={t('breadcrumb')}
       imageSrc="/images/about/about-hero-bg.jpg"
       imageAlt="Jabi Cooperatives office building"
       imagePosition="object-[center_25%] md:object-[center_35%]"
-      description="Jabi Cooperatives Saving & Credit Union S.C has been serving its members with dedication, transparency, and innovation since 1996 E.C."
+      description={t('description')}
     />
   );
 }
