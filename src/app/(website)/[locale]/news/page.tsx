@@ -1,3 +1,5 @@
+import { getTranslations } from 'next-intl/server';
+import { getPublishedNews } from '@/lib/repositories/news';
 import { NewsHero } from '@/components/news/NewsHero';
 import { NewsMainContent } from '@/components/news/NewsMainContent';
 import { AnnualReportsStrip } from '@/components/news/AnnualReportsStrip';
@@ -12,11 +14,11 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'Metadata' });
 
   return {
-    title: 'News & Updates | Jabi Cooperatives Saving & Credit Union S.C',
-    description:
-      'Stay informed with the latest news, announcements, events and activities from Jabi Cooperatives Saving & Credit Union S.C.',
+    title: `${t('news.title')} | ${t('suffix')}`,
+    description: t('news.description'),
   };
 }
 
@@ -26,12 +28,13 @@ export default async function NewsPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const articles = await getPublishedNews(locale);
 
   return (
     <main>
       <NewsHero />
-      <ScrollReveal>
-        <NewsMainContent />
+      <ScrollReveal delayMs={0}>
+        <NewsMainContent articles={articles} />
       </ScrollReveal>
       <ScrollReveal delayMs={100}>
         <AnnualReportsStrip />
