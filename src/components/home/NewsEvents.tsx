@@ -1,27 +1,25 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { CalendarDays, ArrowRight, Newspaper } from 'lucide-react';
-import { fallbackArticles } from '@/data/news';
 
-const categoryLabels: Record<string, string> = {
-  announcement: 'Announcement',
-  'branch-update': 'Branch',
-  event: 'Event',
-  training: 'Training',
-  community: 'Community',
-  'financial-education': 'Financial Education',
-};
+"use client";
 
-function formatDate(date: Date) {
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  }).format(date);
+import Image from "next/image";
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
+import { CalendarDays, ArrowRight, Newspaper } from "lucide-react";
+import type { NewsArticleDTO } from "@/lib/repositories/news";
+
+function formatDate(date: string | null) {
+  if (!date) return "";
+  const d = new Date(date);
+  if (!d || isNaN(d.getTime())) return "";
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(d);
 }
 
-export function NewsEvents() {
-  const articles = fallbackArticles.slice(0, 3);
+export function NewsEvents({ articles }: { articles: NewsArticleDTO[] }) {
+  const t = useTranslations("HomePage.news");
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-8 lg:py-10">
@@ -29,24 +27,24 @@ export function NewsEvents() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">
-            News &amp; Events
+            {t("eyebrow")}
           </span>
           <h2 className="mt-2 text-3xl font-extrabold text-[#022777] sm:text-4xl">
-            Latest News &amp; Updates
+            {t("heading")}
           </h2>
         </div>
         <Link
           href="/news"
           className="flex items-center gap-2 rounded-full border border-gray-200 px-5 py-2 text-sm font-semibold text-[#022777] transition-all hover:bg-gray-50 active:scale-[0.98]"
         >
-          View All News <ArrowRight className="h-4 w-4" />
+          {t("viewAll")} <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
 
       {/* Grid: 3 Article Cards + 1 Dark CTA Card */}
       <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {articles.map((article) => {
-          const categoryText = categoryLabels[article.category] ?? article.category;
+          const categoryText = t(`categories.${article.category}`);
 
           return (
             <article
@@ -66,7 +64,7 @@ export function NewsEvents() {
 
               {/* Card Content */}
               <div className="flex flex-1 flex-col p-5">
-                {/* Meta Row: Category Badge adjacent to Date */}
+                {/* Meta Row */}
                 <div className="flex items-center gap-2.5">
                   <span className="rounded-md bg-emerald-600 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white">
                     {categoryText}
@@ -93,7 +91,7 @@ export function NewsEvents() {
                     href={`/news/${article.slug}`}
                     className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#022777] transition-colors hover:text-emerald-600"
                   >
-                    Read More
+                    {t("readMore")}
                     <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
                   </Link>
                 </div>
@@ -107,15 +105,15 @@ export function NewsEvents() {
           <span className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/20 bg-white/5 backdrop-blur-sm">
             <Newspaper className="h-7 w-7 text-white" />
           </span>
-          <h3 className="mt-5 text-2xl font-bold">More News</h3>
+          <h3 className="mt-5 text-2xl font-bold">{t("moreNews")}</h3>
           <p className="mt-2 text-xs leading-relaxed text-blue-100/80">
-            Stay updated with the latest news and events.
+            {t("moreNewsDescription")}
           </p>
           <Link
             href="/news"
             className="group/btn mt-6 inline-flex items-center gap-2 rounded-full border border-white/40 px-5 py-2.5 text-xs font-bold text-white transition-all hover:border-white hover:bg-white hover:text-[#022777]"
           >
-            View All News
+            {t("viewAll")}
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/btn:translate-x-1" />
           </Link>
         </div>
