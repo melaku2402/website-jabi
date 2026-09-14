@@ -53,7 +53,7 @@ export function Testimonials() {
                       <Star
                         key={i}
                         className={`h-4 w-4 ${
-                          i < testimonial.rating
+                          i < (testimonial.rating ?? 0)
                             ? 'fill-amber-400 text-amber-400'
                             : 'fill-gray-200 text-gray-200'
                         }`}
@@ -71,7 +71,7 @@ export function Testimonials() {
                 <div className="flex items-center gap-3 border-t border-gray-100 pt-4">
                   <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full ring-2 ring-emerald-500/20">
                     <Image
-                      src={testimonial.avatarUrl}
+                      src={testimonial.photo ?? '/images/news/team-members.png'}
                       alt={testimonial.name}
                       fill
                       sizes="40px"
