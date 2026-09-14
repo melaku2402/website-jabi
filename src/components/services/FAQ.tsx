@@ -2,22 +2,29 @@
 
 import { useState } from "react";
 import { HelpCircle, ChevronDown } from "lucide-react";
-import { servicesFaq } from "@/data/services-detail";
+import { useTranslations } from "next-intl";
+
+interface FaqEntry {
+  question: string;
+  answer: string;
+}
 
 export function FAQ() {
-  const [openId, setOpenId] = useState<string | null>(null);
+  const t = useTranslations("ServicesPage.faq");
+  const items = t.raw("items") as FaqEntry[];
+  const [openId, setOpenId] = useState<number | null>(null);
 
   return (
     <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-all duration-300 hover:border-emerald-100 hover:shadow-md sm:p-6">
       <h3 className="text-xl font-extrabold text-blue-950">
-        Frequently Asked Questions
+        {t("heading")}
       </h3>
       <div className="mt-4 space-y-1.5">
-        {servicesFaq.map((item) => {
-          const isOpen = openId === item.id;
+        {items.map((item, index) => {
+          const isOpen = openId === index;
           return (
             <div
-              key={item.id}
+              key={item.question}
               className={`group rounded-lg border transition-all duration-200 ${
                 isOpen
                   ? "border-emerald-200/80 bg-emerald-50/40"
@@ -25,7 +32,7 @@ export function FAQ() {
               }`}
             >
               <button
-                onClick={() => setOpenId(isOpen ? null : item.id)}
+                onClick={() => setOpenId(isOpen ? null : index)}
                 className="flex w-full items-center justify-between gap-2.5 rounded-lg px-2.5 py-2 text-left transition-colors"
                 aria-expanded={isOpen}
               >

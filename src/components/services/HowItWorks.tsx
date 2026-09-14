@@ -6,15 +6,17 @@ import {
   BadgeCheck,
   PackageCheck,
 } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { howItWorksSteps } from "@/data/services-detail";
 
 const stepIcons = [UserPlus, ClipboardList, Search, BadgeCheck, PackageCheck];
 
-export function HowItWorks() {
+export async function HowItWorks() {
+  const t = await getTranslations("ServicesPage.howItWorks");
   return (
     <section className="mx-auto max-w-7xl px-6 pb-16">
       <h2 className="text-center text-xl font-bold tracking-wider text-blue-950 uppercase sm:text-2xl">
-        How It Works
+        {t("heading")}
       </h2>
 
       {/* Desktop view */}
@@ -45,10 +47,10 @@ export function HowItWorks() {
                   {step.step}
                 </p>
                 <p className="mt-1 text-sm font-extrabold text-blue-950 transition-colors duration-300 group-hover:text-blue-900">
-                  {step.title}
+                  {t(`steps.${step.step}.title`)}
                 </p>
                 <p className="mt-1.5 max-w-[180px] text-xs leading-relaxed text-gray-500 transition-colors duration-300 group-hover:text-gray-700">
-                  {step.description}
+                  {t(`steps.${step.step}.description`)}
                 </p>
               </div>
             );
@@ -73,10 +75,10 @@ export function HowItWorks() {
                   {step.step}
                 </p>
                 <p className="text-sm font-extrabold text-blue-950">
-                  {step.title}
+                  {t(`steps.${step.step}.title`)}
                 </p>
                 <p className="mt-1 text-xs leading-relaxed text-gray-500">
-                  {step.description}
+                  {t(`steps.${step.step}.description`)}
                 </p>
               </div>
             </div>
