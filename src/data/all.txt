@@ -1,0 +1,718 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// 1. AUTHENTICATION & ROLES
+// ============================================
+
+model Role {
+  id            String   @id @default(uuid())
+  name          String   @unique
+  descriptionEn String?  @map("description_en")
+  descriptionAm String?  @map("description_am")
+  users         User[]
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@map("roles")
+}
+
+model User {
+  id             String    @id @default(uuid())
+  fullName       String    @map("full_name")
+  email          String    @unique
+  passwordHash   String    @map("password_hash")
+  sessionVersion Int       @default(1)
+  roleId         String    @map("role_id")
+  role           Role      @relation(fields: [roleId], references: [id])
+
+  isActive      Boolean   @default(true) @map("is_active")
+  deactivatedAt DateTime? @map("deactivated_at")
+
+  lastLoginAt DateTime? @map("last_login_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  refreshTokens       RefreshToken[]
+  passwordResetTokens PasswordResetToken[]
+
+  galleryImages        GalleryImage[] @relation("galleryUploader")
+  galleryImagesApproved GalleryImage[] @relation("galleryApprover")
+  galleryImagesDeleted GalleryImage[] @relation("galleryDeleter")
+
+  contactMessagesAssigned ContactMessage[] @relation("assignedMessages")
+  contactMessagesReplied  ContactMessage[] @relation("repliedMessages")
+  contactMessagesDeleted  ContactMessage[] @relation("contactMessageDeleter")
+
+  newsArticlesAuthor  NewsArticle[] @relation("newsAuthor")
+  newsArticlesCreated NewsArticle[] @relation("newsCreator")
+  newsArticlesUpdated NewsArticle[] @relation("newsUpdater")
+  newsArticlesDeleted NewsArticle[] @relation("newsDeleter")
+
+  servicesCreated Service[] @relation("serviceCreator")
+  servicesUpdated Service[] @relation("serviceUpdater")
+  servicesDeleted Service[] @relation("serviceDeleter")
+
+  partnersCreated Partner[] @relation("partnerCreator")
+  partnersUpdated Partner[] @relation("partnerUpdater")
+  partnersDeleted Partner[] @relation("partnerDeleter")
+
+  branchesCreated Branch[] @relation("branchCreator")
+  branchesUpdated Branch[] @relation("branchUpdater")
+  branchesDeleted Branch[] @relation("branchDeleter")
+
+  reportsUploaded Report[] @relation("reportUploader")
+  reportsDeleted  Report[] @relation("reportDeleter")
+
+  notifications           Notification[]
+  siteSettingsUpdated     SiteSettings[]     @relation("siteSettingsUpdater")
+
+  organizationStatsCreated OrganizationStat[] @relation("statCreator")
+  organizationStatsUpdated OrganizationStat[] @relation("statUpdater")
+
+  historyMilestonesCreated HistoryMilestone[] @relation("milestoneCreator")
+  historyMilestonesUpdated HistoryMilestone[] @relation("milestoneUpdater")
+  historyMilestonesDeleted HistoryMilestone[] @relation("milestoneDeleter")
+
+  testimonialsCreated Testimonial[] @relation("testimonialCreator")
+  testimonialsUpdated Testimonial[] @relation("testimonialUpdater")
+  testimonialsDeleted Testimonial[] @relation("testimonialDeleter")
+
+  boardMembersCreated BoardMember[] @relation("boardMemberCreator")
+  boardMembersUpdated BoardMember[] @relation("boardMemberUpdater")
+  boardMembersDeleted BoardMember[] @relation("boardMemberDeleter")
+
+  managementMembersCreated ManagementTeamMember[] @relation("managementMemberCreator")
+  managementMembersUpdated ManagementTeamMember[] @relation("managementMemberUpdater")
+  managementMembersDeleted ManagementTeamMember[] @relation("managementMemberDeleter")
+
+  impactMetricsCreated ImpactMetric[] @relation("metricCreator")
+  impactMetricsUpdated ImpactMetric[] @relation("metricUpdater")
+  impactMetricsDeleted ImpactMetric[] @relation("metricDeleter")
+
+  auditLogs AuditLog[]
+
+  @@index([roleId])
+  @@index([isActive])
+  @@map("users")
+}
+
+// ============================================
+// 2. AUTH SUPPORT: refresh tokens & password resets
+// ============================================
+
+model RefreshToken {
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id")
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique @map("token_hash")
+  userAgent String?   @map("user_agent")
+  ipAddress String?   @map("ip_address")
+  expiresAt DateTime  @map("expires_at")
+  revokedAt DateTime? @map("revoked_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("refresh_tokens")
+}
+
+model PasswordResetToken {
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id")
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique @map("token_hash")
+  expiresAt DateTime  @map("expires_at")
+  usedAt    DateTime? @map("used_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@map("password_reset_tokens")
+}
+
+// ============================================
+// 3. GALLERY
+// ============================================
+
+model GalleryImage {
+  id        String    @id @default(uuid())
+  filePath  String    @map("file_path")
+  titleEn   String?   @map("title_en")
+  titleAm   String?   @map("title_am")
+  altTextEn String?   @map("alt_text_en")
+  altTextAm String?   @map("alt_text_am")
+  fileSize  BigInt?   @map("file_size")
+  mimeType  String?   @map("mime_type")
+
+  uploadedBy String? @map("uploaded_by")
+  uploader   User?   @relation("galleryUploader", fields: [uploadedBy], references: [id], onDelete: SetNull)
+
+  isApproved Boolean   @default(true) @map("is_approved")
+  approvedAt DateTime? @map("approved_at")
+  approvedBy String?   @map("approved_by")
+  approver   User?     @relation("galleryApprover", fields: [approvedBy], references: [id], onDelete: SetNull)
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  deletedBy String?   @map("deleted_by")
+  deleter   User?     @relation("galleryDeleter", fields: [deletedBy], references: [id], onDelete: SetNull)
+
+  @@index([uploadedBy])
+  @@index([deletedAt])
+  @@map("gallery_images")
+}
+
+// ============================================
+// 4. CONTACT MESSAGES
+// ============================================
+
+model ContactMessageStatus {
+  id            String           @id @default(uuid())
+  nameEn        String           @unique @map("name_en")
+  nameAm        String           @unique @map("name_am")
+  descriptionEn String?          @map("description_en")
+  descriptionAm String?          @map("description_am")
+  messages      ContactMessage[]
+
+  @@map("contact_message_statuses")
+}
+
+model ContactMessage {
+  id         String               @id @default(uuid())
+  name       String
+  email      String
+  phone      String?
+  subject    String
+  message    String
+  statusId   String               @map("status_id")
+  status     ContactMessageStatus @relation(fields: [statusId], references: [id])
+  assignedTo String?              @map("assigned_to")
+  assigned   User?                @relation("assignedMessages", fields: [assignedTo], references: [id], onDelete: SetNull)
+  repliedBy  String?              @map("replied_by")
+  replier    User?                @relation("repliedMessages", fields: [repliedBy], references: [id], onDelete: SetNull)
+
+  deletedAt DateTime? @map("deleted_at")
+  deletedBy String?   @map("deleted_by")
+  deleter   User?     @relation("contactMessageDeleter", fields: [deletedBy], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([statusId])
+  @@index([createdAt])
+  @@index([email])
+  @@map("contact_messages")
+}
+
+// ============================================
+// 5. NEWS
+// ============================================
+
+model NewsCategory {
+  id            String        @id @default(uuid())
+  nameEn        String        @unique @map("name_en")
+  nameAm        String        @unique @map("name_am")
+  slug          String        @unique
+  descriptionEn String?       @map("description_en")
+  descriptionAm String?       @map("description_am")
+  articles      NewsArticle[]
+  createdAt     DateTime      @default(now()) @map("created_at")
+
+  @@map("news_categories")
+}
+
+model NewsArticle {
+  id          String       @id @default(uuid())
+  titleEn     String       @map("title_en")
+  titleAm     String       @map("title_am")
+  slug        String       @unique
+  excerptEn   String?      @map("excerpt_en")
+  excerptAm   String?      @map("excerpt_am")
+  contentEn   String       @map("content_en")
+  contentAm   String       @map("content_am")
+  imagePath   String?      @map("image_path")
+  categoryId  String       @map("category_id")
+  category    NewsCategory @relation(fields: [categoryId], references: [id])
+  isFeatured  Boolean      @default(false) @map("is_featured")
+  views       Int          @default(0)
+  authorId    String?      @map("author_id")
+  author      User?        @relation("newsAuthor", fields: [authorId], references: [id], onDelete: SetNull)
+  publishedAt DateTime?    @map("published_at")
+  createdBy   String?      @map("created_by")
+  creator     User?        @relation("newsCreator", fields: [createdBy], references: [id], onDelete: SetNull)
+  updatedBy   String?      @map("updated_by")
+  updater     User?        @relation("newsUpdater", fields: [updatedBy], references: [id], onDelete: SetNull)
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+  deletedAt   DateTime?    @map("deleted_at")
+  deletedBy   String?      @map("deleted_by")
+  deleter     User?        @relation("newsDeleter", fields: [deletedBy], references: [id], onDelete: SetNull)
+
+  @@index([categoryId])
+  @@index([isFeatured])
+  @@index([publishedAt])
+  @@map("news_articles")
+}
+
+// ============================================
+// 6. BRANCHES
+// ============================================
+
+model Branch {
+  id           String    @id @default(uuid())
+  slug         String    @unique
+  nameEn       String    @map("name_en")
+  nameAm       String?   @map("name_am")
+  locationEn   String    @map("location_en")
+  locationAm   String?   @map("location_am")
+  phone        String?
+  imagePath    String?   @map("image_path")
+  displayOrder Int       @default(0) @map("display_order")
+  isActive     Boolean   @default(true) @map("is_active")
+
+  createdBy String?   @map("created_by")
+  creator   User?     @relation("branchCreator", fields: [createdBy], references: [id], onDelete: SetNull)
+  updatedBy String?   @map("updated_by")
+  updater   User?     @relation("branchUpdater", fields: [updatedBy], references: [id], onDelete: SetNull)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  deletedBy String?   @map("deleted_by")
+  deleter   User?     @relation("branchDeleter", fields: [deletedBy], references: [id], onDelete: SetNull)
+
+  @@index([slug])
+  @@index([displayOrder])
+  @@index([isActive])
+  @@map("branches")
+}
+
+// ============================================
+// 7. PARTNERS
+// ============================================
+
+model Partner {
+  id           String    @id @default(uuid())
+  nameEn       String    @unique @map("name_en")
+  nameAm       String    @unique @map("name_am")
+  logoPath     String    @map("logo_path")
+  websiteUrl   String?   @map("website_url")
+  displayOrder Int       @default(0) @map("display_order")
+  isActive     Boolean   @default(true) @map("is_active")
+  createdBy    String?   @map("created_by")
+  creator      User?     @relation("partnerCreator", fields: [createdBy], references: [id], onDelete: SetNull)
+  updatedBy    String?   @map("updated_by")
+  updater      User?     @relation("partnerUpdater", fields: [updatedBy], references: [id], onDelete: SetNull)
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  deletedAt    DateTime? @map("deleted_at")
+  deletedBy    String?   @map("deleted_by")
+  deleter      User?     @relation("partnerDeleter", fields: [deletedBy], references: [id], onDelete: SetNull)
+
+  @@index([displayOrder])
+  @@index([isActive])
+  @@map("partners")
+}
+
+// ============================================
+// 8. REPORTS
+// ============================================
+
+model ReportCategory {
+  id            String   @id @default(uuid())
+  nameEn        String   @unique @map("name_en")
+  nameAm        String   @unique @map("name_am")
+  descriptionEn String?  @map("description_en")
+  descriptionAm String?  @map("description_am")
+  reports       Report[]
+
+  @@map("report_categories")
+}
+
+model Report {
+  id            String         @id @default(uuid())
+  titleEn       String         @map("title_en")
+  titleAm       String         @map("title_am")
+  filePath      String         @map("file_path")
+  fileSize      BigInt?        @map("file_size")
+  mimeType      String?        @map("mime_type")
+  categoryId    String         @map("category_id")
+  category      ReportCategory @relation(fields: [categoryId], references: [id])
+  downloadCount Int            @default(0) @map("download_count")
+  isPublic      Boolean        @default(true) @map("is_public")
+  uploadedBy    String?        @map("uploaded_by")
+  uploader      User?          @relation("reportUploader", fields: [uploadedBy], references: [id], onDelete: SetNull)
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  deletedAt     DateTime?      @map("deleted_at")
+  deletedBy     String?        @map("deleted_by")
+  deleter       User?          @relation("reportDeleter", fields: [deletedBy], references: [id], onDelete: SetNull)
+
+  @@index([categoryId])
+  @@index([downloadCount])
+  @@map("reports")
+}
+
+// ============================================
+// 8b. NEWSLETTER SUBSCRIBERS
+// ============================================
+
+model NewsletterSubscriber {
+  id             String    @id @default(uuid())
+  email          String    @unique
+  isActive       Boolean   @default(true) @map("is_active")
+  subscribedAt   DateTime  @default(now()) @map("subscribed_at")
+  unsubscribedAt DateTime? @map("unsubscribed_at")
+
+  @@index([isActive])
+  @@map("newsletter_subscribers")
+}
+
+// ============================================
+// 9. NOTIFICATIONS
+// ============================================
+
+model NotificationType {
+  id            String         @id @default(uuid())
+  nameEn        String         @unique @map("name_en")
+  nameAm        String         @unique @map("name_am")
+  descriptionEn String?        @map("description_en")
+  descriptionAm String?        @map("description_am")
+  notifications Notification[]
+
+  @@map("notification_types")
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String           @map("user_id")
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  typeId    String           @map("type_id")
+  type      NotificationType @relation(fields: [typeId], references: [id])
+  titleEn   String           @map("title_en")
+  titleAm   String           @map("title_am")
+  messageEn String?          @map("message_en")
+  messageAm String?          @map("message_am")
+  link      String?
+  isRead    Boolean          @default(false) @map("is_read")
+  createdAt DateTime         @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([typeId])
+  @@index([userId, isRead])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+// ============================================
+// 10. SITE SETTINGS (singleton table)
+// ============================================
+
+model SiteSettings {
+  id Int @id @default(1)
+
+  siteNameEn  String  @map("site_name_en")
+  siteNameAm  String  @map("site_name_am")
+  logoPath    String? @map("logo_path")
+  faviconPath String? @map("favicon_path")
+
+  phone     String?
+  email     String?
+  addressEn String? @map("address_en")
+  addressAm String? @map("address_am")
+
+  facebookUrl String? @map("facebook_url")
+  telegramUrl String? @map("telegram_url")
+  whatsappUrl String? @map("whatsapp_url")
+  linkedinUrl String? @map("linkedin_url")
+
+  siteTitleEn       String? @map("site_title_en")
+  siteTitleAm       String? @map("site_title_am")
+  metaDescriptionEn String? @map("meta_description_en")
+  metaDescriptionAm String? @map("meta_description_am")
+
+  chairmanNameEn    String? @map("chairman_name_en")
+  chairmanNameAm    String? @map("chairman_name_am")
+  chairmanTitleEn   String? @map("chairman_title_en")
+  chairmanTitleAm   String? @map("chairman_title_am")
+  chairmanQuoteEn   String? @map("chairman_quote_en")
+  chairmanQuoteAm   String? @map("chairman_quote_am")
+  chairmanMessageEn String? @map("chairman_message_en")
+  chairmanMessageAm String? @map("chairman_message_am")
+  chairmanPhotoPath String? @map("chairman_photo_path")
+
+  storyVideoUrl           String? @map("story_video_url")
+  storyVideoTitleEn       String? @map("story_video_title_en")
+  storyVideoTitleAm       String? @map("story_video_title_am")
+  storyVideoDescriptionEn String? @map("story_video_description_en")
+  storyVideoDescriptionAm String? @map("story_video_description_am")
+
+  updatedBy String?  @map("updated_by")
+  updater   User?    @relation("siteSettingsUpdater", fields: [updatedBy], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([updatedBy])
+  @@map("site_settings")
+}
+
+// ============================================
+// 11. ORGANIZATION STATS
+// ============================================
+
+model OrganizationStat {
+  id String @id @default(uuid())
+
+  cooperatives     Int
+  members          Int
+  staff            Int
+  numberOfBranches Int?     @map("number_of_branches")
+  totalAssets      Decimal  @map("total_assets")
+  totalLoan        Decimal? @map("total_loan")
+  year             Int      @unique
+
+  
+
+  noteEn String? @map("note_en")
+  noteAm String? @map("note_am")
+
+  createdBy String?  @map("created_by")
+  creator   User?    @relation("statCreator", fields: [createdBy], references: [id], onDelete: SetNull)
+  updatedBy String?  @map("updated_by")
+  updater   User?    @relation("statUpdater", fields: [updatedBy], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([year])
+  @@map("organization_stats")
+}
+
+// ============================================
+// 13. HISTORY MILESTONES
+// ============================================
+
+model HistoryMilestone {
+  id            String  @id @default(uuid())
+  year          Int
+  titleEn       String  @map("title_en")
+  titleAm       String  @map("title_am")
+  descriptionEn String  @map("description_en")
+  descriptionAm String  @map("description_am")
+  icon          String?
+  imagePath     String? @map("image_path")
+  displayOrder  Int     @default(0) @map("display_order")
+  isActive      Boolean @default(true) @map("is_active")
+
+  createdBy String?   @map("created_by")
+  creator   User?     @relation("milestoneCreator", fields: [createdBy], references: [id], onDelete: SetNull)
+  updatedBy String?   @map("updated_by")
+  updater   User?     @relation("milestoneUpdater", fields: [updatedBy], references: [id], onDelete: SetNull)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  deletedBy String?   @map("deleted_by")
+  deleter   User?     @relation("milestoneDeleter", fields: [deletedBy], references: [id], onDelete: SetNull)
+
+  @@index([year])
+  @@index([displayOrder])
+  @@map("history_milestones")
+}
+
+// ============================================
+// 14. TESTIMONIALS
+// ============================================
+
+model Testimonial {
+  id            String  @id @default(uuid())
+  quoteEn       String  @map("quote_en")
+  quoteAm       String  @map("quote_am")
+  name          String
+  roleEn        String  @map("role_en")
+  roleAm        String  @map("role_am")
+  cooperativeEn String? @map("cooperative_en")
+  cooperativeAm String? @map("cooperative_am")
+  photo         String?
+  displayOrder  Int     @default(0) @map("display_order")
+  isActive      Boolean @default(true) @map("is_active")
+  isFeatured    Boolean @default(false) @map("is_featured")
+
+  createdBy String?   @map("created_by")
+  creator   User?     @relation("testimonialCreator", fields: [createdBy], references: [id], onDelete: SetNull)
+  updatedBy String?   @map("updated_by")
+  updater   User?     @relation("testimonialUpdater", fields: [updatedBy], references: [id], onDelete: SetNull)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  deletedBy String?   @map("deleted_by")
+  deleter   User?     @relation("testimonialDeleter", fields: [deletedBy], references: [id], onDelete: SetNull)
+
+  @@index([displayOrder])
+  @@map("testimonials")
+}
+
+// ============================================
+// 14b. GOVERNANCE
+// ============================================
+
+model BoardMember {
+  id           String  @id @default(uuid())
+  nameEn       String  @map("name_en")
+  nameAm       String  @map("name_am")
+  roleEn       String  @map("role_en")
+  roleAm       String  @map("role_am")
+  bioEn        String? @map("bio_en")
+  bioAm        String? @map("bio_am")
+  photoPath    String? @map("photo_path")
+  displayOrder Int     @default(0) @map("display_order")
+  isActive     Boolean @default(true) @map("is_active")
+
+  createdBy String?   @map("created_by")
+  creator   User?     @relation("boardMemberCreator", fields: [createdBy], references: [id], onDelete: SetNull)
+  updatedBy String?   @map("updated_by")
+  updater   User?     @relation("boardMemberUpdater", fields: [updatedBy], references: [id], onDelete: SetNull)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  deletedBy String?   @map("deleted_by")
+  deleter   User?     @relation("boardMemberDeleter", fields: [deletedBy], references: [id], onDelete: SetNull)
+
+  @@index([displayOrder])
+  @@map("board_members")
+}
+
+model ManagementTeamMember {
+  id           String  @id @default(uuid())
+  nameEn       String  @map("name_en")
+  nameAm       String  @map("name_am")
+  roleEn       String  @map("role_en")
+  roleAm       String  @map("role_am")
+  bioEn        String? @map("bio_en")
+  bioAm        String? @map("bio_am")
+  photoPath    String? @map("photo_path")
+  displayOrder Int     @default(0) @map("display_order")
+  isActive     Boolean @default(true) @map("is_active")
+
+  createdBy String?   @map("created_by")
+  creator   User?     @relation("managementMemberCreator", fields: [createdBy], references: [id], onDelete: SetNull)
+  updatedBy String?   @map("updated_by")
+  updater   User?     @relation("managementMemberUpdater", fields: [updatedBy], references: [id], onDelete: SetNull)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  deletedBy String?   @map("deleted_by")
+  deleter   User?     @relation("managementMemberDeleter", fields: [deletedBy], references: [id], onDelete: SetNull)
+
+  @@index([displayOrder])
+  @@map("management_team_members")
+}
+
+// ============================================
+// 15. IMPACT METRICS
+// ============================================
+
+
+enum ImpactMetricIcon {
+  assets
+  capital
+  surplus
+  growth
+  years
+}
+
+model ImpactMetric {
+  id           String           @id @default(uuid())
+  metricKey    String           @unique @map("metric_key") // 'assets', 'capital', 'surplus', etc.
+  icon         ImpactMetricIcon
+  valueEn      String           @map("value_en")           // e.g., '7.76B ETB', '25+'
+  valueAm      String?          @map("value_am")           // Amharic localization
+  labelEn      String           @map("label_en")           // e.g., 'Total Assets'
+  labelAm      String?          @map("label_am")           // Amharic localization
+  displayOrder Int              @default(0) @map("display_order")
+  isActive     Boolean          @default(true) @map("is_active")
+
+  createdBy String?   @map("created_by")
+  creator   User?     @relation("metricCreator", fields: [createdBy], references: [id], onDelete: SetNull)
+  updatedBy String?   @map("updated_by")
+  updater   User?     @relation("metricUpdater", fields: [updatedBy], references: [id], onDelete: SetNull)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  deletedBy String?   @map("deleted_by")
+  deleter   User?     @relation("metricDeleter", fields: [deletedBy], references: [id], onDelete: SetNull)
+
+  @@index([displayOrder])
+  @@map("impact_metrics")
+}
+
+// ============================================
+// 16. AUDIT LOGS
+// ============================================
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?  @map("user_id")
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    String
+  tableName String   @map("table_name")
+  recordId  String   @map("record_id")
+  oldValues Json?    @map("old_values")
+  newValues Json?    @map("new_values")
+  ipAddress String?  @map("ip_address")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([tableName, recordId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// ============================================
+// 17. SERVICES & SERVICE CATEGORIES
+// ============================================
+
+model ServiceCategory {
+  id            String    @id @default(uuid())
+  nameEn        String    @unique @map("name_en")
+  nameAm        String    @unique @map("name_am")
+  descriptionEn String?   @map("description_en")
+  descriptionAm String?   @map("description_am")
+  services      Service[]
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  @@map("service_categories")
+}
+
+model Service {
+  id            String          @id @default(uuid())
+  slug          String          @unique
+  titleEn       String          @map("title_en")
+  titleAm       String          @map("title_am")
+  descriptionEn String          @map("description_en")
+  descriptionAm String          @map("description_am")
+  icon          String?
+  imagePath     String?         @map("image_path")
+  categoryId    String?         @map("category_id")
+  category      ServiceCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  displayOrder  Int             @default(0) @map("display_order")
+  isActive      Boolean         @default(true) @map("is_active")
+
+  createdBy String?   @map("created_by")
+  creator   User?     @relation("serviceCreator", fields: [createdBy], references: [id], onDelete: SetNull)
+  updatedBy String?   @map("updated_by")
+  updater   User?     @relation("serviceUpdater", fields: [updatedBy], references: [id], onDelete: SetNull)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  deletedBy String?   @map("deleted_by")
+  deleter   User?     @relation("serviceDeleter", fields: [deletedBy], references: [id], onDelete: SetNull)
+
+  @@index([categoryId])
+  @@index([displayOrder])
+  @@index([isActive])
+  @@map("services")
+}

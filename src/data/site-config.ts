@@ -1,34 +1,34 @@
 export interface NavLink {
-  label: string;
+  key: string;
   href: string;
 }
 
 export const mainNavLinks: NavLink[] = [
-  { label: 'Home', href: '/' },
-  { label: 'About Us', href: '/about' },
-  { label: 'Services', href: '/services' },
-  // { label: 'Membership', href: '/membership' },
-  // { label: 'Reports', href: '/reports' },
-  { label: 'News & Events', href: '/news' },
-  { label: 'Contact Us', href: '/contact' },
+  { key: 'home', href: '/' },
+  { key: 'about', href: '/about' },
+  { key: 'services', href: '/services' },
+  // { key: 'membership', href: '/membership' },
+  // { key: 'reports', href: '/reports' },
+  { key: 'news', href: '/news' },
+  { key: 'contact', href: '/contact' },
 ];
 
 export const footerServiceLinks: NavLink[] = [
-  { label: 'Savings', href: '/services/savings' },
-  { label: 'Loans', href: '/services/loans' },
-  { label: 'Fixed Deposit', href: '/services/fixed-deposit' },
-  { label: 'Money Transfer', href: '/services/money-transfer' },
-  { label: 'Financial Education', href: '/services/financial-education' },
-  { label: 'Other Services', href: '/services/other' },
+  { key: 'savings', href: '/services/savings' },
+  { key: 'loans', href: '/services/loans' },
+  { key: 'fixedDeposit', href: '/services/fixed-deposit' },
+  { key: 'moneyTransfer', href: '/services/money-transfer' },
+  { key: 'financialEducation', href: '/services/financial-education' },
+  { key: 'otherServices', href: '/services/other' },
 ];
 
 export const footerResourceLinks: NavLink[] = [
-  { label: 'Annual Reports', href: '/reports/annual' },
-  { label: 'Financial Statements', href: '/reports/financial-statements' },
-  { label: 'Policies', href: '/reports/policies' },
-  { label: 'Forms & Documents', href: '/reports/forms' },
-  { label: 'Downloads', href: '/reports/downloads' },
-  { label: 'FAQs', href: '/faqs' },
+  { key: 'annualReports', href: '/reports/annual' },
+  { key: 'financialStatements', href: '/reports/financial-statements' },
+  { key: 'policies', href: '/reports/policies' },
+  { key: 'formsAndDocuments', href: '/reports/forms' },
+  { key: 'downloads', href: '/reports/downloads' },
+  { key: 'faqs', href: '/faqs' },
 ];
 
 export const siteContact = {
